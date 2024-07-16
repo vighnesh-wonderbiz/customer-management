@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CustomerManagement.DTO\CustomerManagement.DTO.csproj" />
+    <ProjectReference Include="..\CustomerManagement.IRepositories\CustomerManagement.IRepositories.csproj" />
     <ProjectReference Include="..\CustomerManagement.Model\CustomerManagement.Model.csproj" />
   </ItemGroup>
 

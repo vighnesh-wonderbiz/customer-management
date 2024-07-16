@@ -4,3 +4,139 @@ GET {{CustomerManagement.API_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+POST {{CustomerManagement.API_HostAddress}}/api/product
+Content-Type: application/json
+
+{
+  "IsSubscribable": false,
+  "ProductName": "Another Sample Product",
+  "ProductDescription": "Sample Product Description",
+  "ProductPrice": 99.99,
+  "IsActive": true,
+  "IGstRate": 18.5,
+  "CGstRate": 9.0,
+  "UTGstRate": 9.0,
+  "SGstRate": 0.0,
+  "StartDate": null,
+  "EndDate": null,
+  "CreatedDate": "2024-07-15T10:30:00+00:00",
+  "CreatedBy": 1,
+  "UpdatedDate": "2024-07-15T10:30:00+00:00",
+  "UpdatedBy": 1,
+  "DurationInDays": 0
+}
+
+
+###
+
+GET {{CustomerManagement.API_HostAddress}}/api/product
+
+###
+
+GET {{CustomerManagement.API_HostAddress}}/api/product/2
+
+###
+
+DELETE {{CustomerManagement.API_HostAddress}}/api/product/2
+
+###
+
+PUT {{CustomerManagement.API_HostAddress}}/api/product/2
+Content-Type: application/json
+
+{
+    "ProductId":21,
+  "IsSubscribable": false,
+  "ProductName": "Another Sample Product",
+  "ProductDescription": "Another Sample Product Description",
+  "ProductPrice": 99.99,
+  "IsActive": true,
+  "IGstRate": 18.5, 
+  "CGstRate": 9.0,
+  "UTGstRate": 9.0,
+  "SGstRate": 0.0,
+  "StartDate": null,
+  "EndDate": null,
+  "CreatedDate": "2024-07-15T10:30:00+00:00",
+  "CreatedBy": 1,
+  "UpdatedDate": "2024-07-15T10:30:00+00:00",
+  "UpdatedBy": 1,
+  "DurationInDays": 0
+}
+
+###
+
+###
+
+GET {{CustomerManagement.API_HostAddress}}/api/role
+
+###
+
+POST {{CustomerManagement.API_HostAddress}}/api/role
+Content-Type: application/json
+
+{
+    "RoleName": "Test",
+    "IsActive":true,
+    "createdBy":1,
+    "updatedBy":1
+}
+
+###
+
+GET {{CustomerManagement.API_HostAddress}}/api/role/6
+
+###
+
+DELETE {{CustomerManagement.API_HostAddress}}/api/role/5
+
+###
+
+PUT {{CustomerManagement.API_HostAddress}}/api/role/6
+Content-Type: application/json
+
+{
+    "RoleId":6,
+    "RoleName": "test again",
+    "IsActive":true,
+    "createdBy":1,
+    "updatedBy":1
+}
+
+###
+
+GET {{CustomerManagement.API_HostAddress}}/api/gender
+
+###
+
+POST {{CustomerManagement.API_HostAddress}}/api/gender
+Content-Type: application/json
+
+{
+  "GenderName":"Test again 2",
+  "createdBy":1,
+  "updatedBy":1
+}
+
+###
+
+
+GET {{CustomerManagement.API_HostAddress}}/api/gender/8
+
+###
+
+PUT {{CustomerManagement.API_HostAddress}}/api/gender/8
+Content-Type: application/json
+
+{
+    "GenderId":8,
+    "GenderName":"Change Test 1",
+    "updatedBy":1
+}
+
+###
+
+DELETE {{CustomerManagement.API_HostAddress}}/api/gender/7
+
+###

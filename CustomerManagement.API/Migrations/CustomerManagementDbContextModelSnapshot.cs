@@ -429,8 +429,8 @@ namespace CustomerManagement.API.Migrations
                     b.Property<int>("DurationInDays")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("EndDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<decimal>("IGstRate")
                         .HasPrecision(18, 2)
@@ -458,8 +458,8 @@ namespace CustomerManagement.API.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime?>("StartDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("StartDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<decimal>("UTGstRate")
                         .HasPrecision(18, 2)
@@ -621,7 +621,7 @@ namespace CustomerManagement.API.Migrations
             modelBuilder.Entity("CustomerManagement.Model.EnquiryDetail", b =>
                 {
                     b.HasOne("CustomerManagement.Model.Enquiry", "Enquiry")
-                        .WithMany("EnquiryDetails")
+                        .WithMany()
                         .HasForeignKey("EnquiryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -632,7 +632,7 @@ namespace CustomerManagement.API.Migrations
             modelBuilder.Entity("CustomerManagement.Model.EnquiryInterest", b =>
                 {
                     b.HasOne("CustomerManagement.Model.Enquiry", "Enquiry")
-                        .WithMany("EnquiryInterests")
+                        .WithMany()
                         .HasForeignKey("EnquiryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -713,7 +713,7 @@ namespace CustomerManagement.API.Migrations
                         .IsRequired();
 
                     b.HasOne("CustomerManagement.Model.Role", "Role")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -721,13 +721,6 @@ namespace CustomerManagement.API.Migrations
                     b.Navigation("Gender");
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("CustomerManagement.Model.Enquiry", b =>
-                {
-                    b.Navigation("EnquiryDetails");
-
-                    b.Navigation("EnquiryInterests");
                 });
 
             modelBuilder.Entity("CustomerManagement.Model.Order", b =>
@@ -738,6 +731,11 @@ namespace CustomerManagement.API.Migrations
             modelBuilder.Entity("CustomerManagement.Model.Payment", b =>
                 {
                     b.Navigation("PaymentRecords");
+                });
+
+            modelBuilder.Entity("CustomerManagement.Model.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("CustomerManagement.Model.User", b =>

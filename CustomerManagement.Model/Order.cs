@@ -17,14 +17,6 @@ namespace CustomerManagement.Model
 
         public int OrderId { get; set; }
 
-        [ForeignKey("Payment")]
-        public int PaymentId { get; set; }
-        public virtual Payment Payment { get; set; }
-
-        [ForeignKey("User")]
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
-
         [Precision(18, 2)]
         public decimal OrderTotal { get; set; }
 
@@ -44,6 +36,14 @@ namespace CustomerManagement.Model
         public int UpdatedBy { get; set; }
 
         public virtual ICollection<OrderDetail> OrderDetails {  get; set; }
+
+        [ForeignKey("Payment")]
+        public int PaymentId { get; set; }
+        public virtual Payment Payment { get; set; }
+
+        [ForeignKey("User")]
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
 
     }
 }

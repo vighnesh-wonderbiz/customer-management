@@ -39,8 +39,8 @@ namespace CustomerManagement.Model
         [Precision(18, 2)]
         public decimal SGstRate { get; set; }
 
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTimeOffset? StartDate { get; set; }
+        public DateTimeOffset? EndDate { get; set; }
 
         public DateTimeOffset CreatedDate { get; set; }
         public int CreatedBy { get; set; }

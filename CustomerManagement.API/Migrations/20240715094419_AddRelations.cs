@@ -5,7 +5,7 @@
 namespace CustomerManagement.API.Migrations
 {
     /// <inheritdoc />
-    public partial class AddRelation : Migration
+    public partial class AddRelations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

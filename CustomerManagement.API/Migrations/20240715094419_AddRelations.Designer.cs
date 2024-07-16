@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CustomerManagement.API.Migrations
 {
     [DbContext(typeof(CustomerManagementDbContext))]
-    [Migration("20240715090715_AddTables")]
-    partial class AddTables
+    [Migration("20240715094419_AddRelations")]
+    partial class AddRelations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,6 +67,8 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasKey("EnquiryId");
 
+                    b.HasIndex("StatusId");
+
                     b.ToTable("Enquiries");
                 });
 
@@ -102,6 +104,8 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasKey("EnquiryDetailsId");
 
+                    b.HasIndex("EnquiryId");
+
                     b.ToTable("EqnuiryDetails");
                 });
 
@@ -132,6 +136,10 @@ namespace CustomerManagement.API.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("EnquiryInterestId");
+
+                    b.HasIndex("EnquiryId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("EnquiryInterests");
                 });
@@ -196,6 +204,8 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasKey("LeadId");
 
+                    b.HasIndex("EnquiryId");
+
                     b.ToTable("Leads");
                 });
 
@@ -247,6 +257,10 @@ namespace CustomerManagement.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -320,6 +334,10 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasKey("OrderDetailsId");
 
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
                     b.ToTable("OrderDetails");
                 });
 
@@ -377,6 +395,9 @@ namespace CustomerManagement.API.Migrations
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int?>("PaymentId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UpdatedBy")
                         .HasColumnType("int");
 
@@ -384,6 +405,8 @@ namespace CustomerManagement.API.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("PaymentRecordId");
+
+                    b.HasIndex("PaymentId");
 
                     b.ToTable("PaymentRecords");
                 });
@@ -409,8 +432,8 @@ namespace CustomerManagement.API.Migrations
                     b.Property<int>("DurationInDays")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("EndDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<decimal>("IGstRate")
                         .HasPrecision(18, 2)
@@ -438,8 +461,8 @@ namespace CustomerManagement.API.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime?>("StartDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("StartDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<decimal>("UTGstRate")
                         .HasPrecision(18, 2)
@@ -580,7 +603,147 @@ namespace CustomerManagement.API.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
+                    b.HasIndex("GenderId");
+
+                    b.HasIndex("RoleId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("CustomerManagement.Model.Enquiry", b =>
+                {
+                    b.HasOne("CustomerManagement.Model.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("CustomerManagement.Model.EnquiryDetail", b =>
+                {
+                    b.HasOne("CustomerManagement.Model.Enquiry", "Enquiry")
+                        .WithMany()
+                        .HasForeignKey("EnquiryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Enquiry");
+                });
+
+            modelBuilder.Entity("CustomerManagement.Model.EnquiryInterest", b =>
+                {
+                    b.HasOne("CustomerManagement.Model.Enquiry", "Enquiry")
+                        .WithMany()
+                        .HasForeignKey("EnquiryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CustomerManagement.Model.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Enquiry");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("CustomerManagement.Model.Lead", b =>
+                {
+                    b.HasOne("CustomerManagement.Model.Enquiry", "Enquiry")
+                        .WithMany()
+                        .HasForeignKey("EnquiryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Enquiry");
+                });
+
+            modelBuilder.Entity("CustomerManagement.Model.Order", b =>
+                {
+                    b.HasOne("CustomerManagement.Model.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CustomerManagement.Model.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Payment");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CustomerManagement.Model.OrderDetail", b =>
+                {
+                    b.HasOne("CustomerManagement.Model.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CustomerManagement.Model.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("CustomerManagement.Model.PaymentRecord", b =>
+                {
+                    b.HasOne("CustomerManagement.Model.Payment", null)
+                        .WithMany("PaymentRecords")
+                        .HasForeignKey("PaymentId");
+                });
+
+            modelBuilder.Entity("CustomerManagement.Model.User", b =>
+                {
+                    b.HasOne("CustomerManagement.Model.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CustomerManagement.Model.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Gender");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("CustomerManagement.Model.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("CustomerManagement.Model.Payment", b =>
+                {
+                    b.Navigation("PaymentRecords");
+                });
+
+            modelBuilder.Entity("CustomerManagement.Model.Role", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("CustomerManagement.Model.User", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

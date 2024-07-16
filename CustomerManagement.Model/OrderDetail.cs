@@ -16,14 +16,6 @@ namespace CustomerManagement.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderDetailsId { get; set; }
 
-        [ForeignKey("Order")]
-        public int OrderId { get; set; }
-        public virtual Order Order { get; set; }
-
-        [ForeignKey("Product")]
-        public int ProductId { get; set; }
-        public virtual Product Product { get; set; }
-
         public int Quantity { get; set; } = 1;
 
         [Precision(18, 2)]
@@ -55,5 +47,14 @@ namespace CustomerManagement.Model
         public int CreatedBy { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
+
+        [ForeignKey("Order")]
+        public int OrderId { get; set; }
+        public virtual Order Order { get; set; }
+
+        [ForeignKey("Product")]
+        public int ProductId { get; set; }
+        public virtual Product Product { get; set; }
+
     }
 }

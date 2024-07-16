@@ -20,14 +20,6 @@ namespace CustomerManagement.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
 
-        [ForeignKey("Gender")]
-        public int GenderId { get; set; } = 1;
-        public virtual Gender Gender {get; set;}
-
-        [ForeignKey("Role")]
-        public int RoleId { get; set; }
-        public virtual Role Role {get; set;}
-
         public string UserName { get; set; } = string.Empty;
         
         [MinLength(10,ErrorMessage="Invalid Phone")]
@@ -47,6 +39,14 @@ namespace CustomerManagement.Model
         public int? CreatedBy { get; set; }
         public DateTimeOffset? UpdatedDate { get; set; }
         public int? UpdatedBy { get; set; }
+
+        [ForeignKey("Gender")]
+        public int GenderId { get; set; } = 1;
+        public virtual Gender Gender {get; set;}
+
+        [ForeignKey("Role")]
+        public int RoleId { get; set; }
+        public virtual Role Role {get; set;}
 
         public virtual ICollection<Order> Orders {get;set;} 
     }
