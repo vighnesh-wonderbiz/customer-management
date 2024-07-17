@@ -17,7 +17,7 @@ namespace CustomerManagement.DTO
         int CreatedBy,
         DateTimeOffset UpdatedDate,
         int UpdatedBy,
-        List<PaymentRecord> PaymentRecordsId
+        IEnumerable<PaymentRecord> PaymentRecordsId
     );
 
     public record CreatePaymentDTO(

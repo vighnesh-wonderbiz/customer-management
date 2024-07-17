@@ -129,21 +129,17 @@ namespace CustomerManagement.Services
             try
             {
                 var oldUser = await userRepository.FindByIdAsync(id);
-                var myRequest = mapper.Map<User>(updateUserDTO);
                 if (oldUser != null)
                 {
-                    myRequest.UpdatedDate = DateTimeOffset.Now;
-
                     var oldUserDTO = mapper.Map<UpdateUserDTO>(oldUser);
-                    var myRequestDTO = mapper.Map<UpdateUserDTO>(myRequest);
-
-                    var updateRequestDTO = mapper.Map(myRequestDTO, oldUserDTO);
+                    var updateRequestDTO = mapper.Map(updateUserDTO,oldUser);
                     var updateRequest = mapper.Map<User>(updateRequestDTO);
-
+                    updateRequest.UpdatedDate = DateTimeOffset.Now;
                     updateRequest.CreatedDate = oldUser.CreatedDate;
                     updateRequest.CreatedBy = oldUser.CreatedBy;
-
-                    var updatedUser = await userRepository.UpdateAsync(updateRequest);
+                    
+                    var updatedUser = await userRepository.PutUserAsync(updateRequest);
+                    
                     var mappedUser = new UserDTO(
                         updatedUser.UserName,
                         updatedUser.Phone,

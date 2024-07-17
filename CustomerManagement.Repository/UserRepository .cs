@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace CustomerManagement.Repository
 {
-    /*
 
 public class UserRepository : Repository<User>, IUserRepository
 {
@@ -22,13 +21,13 @@ public class UserRepository : Repository<User>, IUserRepository
 
     public async Task<IEnumerable<User>> GetAllAsync()
     {
-        var users = await _context.Users.Include(rol=>rol.Role).Include(gen=>gen.Gender).ToListAsync();
+        var users = await _context.Users.Include(rol=>rol.UserRole).Include(gen=>gen.UserGender).ToListAsync();
         return users;
     }
 
     public async Task<User> GetByIdAsync(int id)
     {
-        var user = await _context.Users.Include(rol => rol.Role).Include(gen => gen.Gender).FirstOrDefaultAsync(i => i.UserId == id);
+        var user = await _context.Users.Include(rol => rol.UserRole).Include(gen => gen.UserGender).FirstOrDefaultAsync(i => i.UserId == id);
         return user;
     }
     public async Task<User> AddUserAsync(User user)
@@ -37,9 +36,8 @@ public class UserRepository : Repository<User>, IUserRepository
         {
             var addT = await _context.AddAsync(user);
             var savedT = await _context.SaveChangesAsync();
-            await _context.Entry(user).Reference(u => u.Role).LoadAsync();
-            await _context.Entry(user).Reference(u => u.Gender).LoadAsync();
-            return user;
+            var savedUser = await GetByIdAsync(addT.Entity.UserId);
+            return savedUser;
         }
         catch (Exception e)
         {
@@ -51,19 +49,10 @@ public class UserRepository : Repository<User>, IUserRepository
     {
         try
         {
-            var updateUser = _context.Update(user);
-            var updatedUser =  await _context.SaveChangesAsync();
-            if (updateUser.UserId)
-            {
-                var populatedUser = await GetByIdAsync(updateUser.UserId);
-            }
-            return populatedUser;
-            /*
-            var addT = await _context.AddAsync(user);
-            var savedT = await _context.SaveChangesAsync();
-            await _context.Entry(user).Reference(u => u.Role).LoadAsync();
-            await _context.Entry(user).Reference(u => u.Gender).LoadAsync();
-            return user;
+                var _user = _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+                var updateUser = await GetByIdAsync(_user.Entity.UserId);
+                return updateUser;
         }
         catch (Exception e)
         {
@@ -72,5 +61,4 @@ public class UserRepository : Repository<User>, IUserRepository
     }
 
 }
-            */
 }

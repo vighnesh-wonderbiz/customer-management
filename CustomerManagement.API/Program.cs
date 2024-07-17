@@ -31,10 +31,8 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IGenderServices, GenderServices>();
 builder.Services.AddScoped<IGenderRepository, GenderRepository>();
 
-/*
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-*/
 // Configure the HTTP request pipeline.
 var app = builder.Build();
 app.UseAuthorization();

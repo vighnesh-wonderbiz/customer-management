@@ -13,5 +13,7 @@ namespace CustomerManagement.IRepositories
         Task<User> GetByIdAsync(int id);
         Task<User> AddUserAsync(User user);
 
+        Task<User> PutUserAsync(User user);
+
     }
 }

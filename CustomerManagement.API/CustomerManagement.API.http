@@ -93,11 +93,11 @@ DELETE {{CustomerManagement.API_HostAddress}}/api/role/5
 
 ###
 
-PUT {{CustomerManagement.API_HostAddress}}/api/role/6
+PUT {{CustomerManagement.API_HostAddress}}/api/role/4
 Content-Type: application/json
 
 {
-    "RoleId":6,
+    "RoleId":4,
     "RoleName": "test again",
     "IsActive":true,
     "createdBy":1,
@@ -149,7 +149,7 @@ GET {{CustomerManagement.API_HostAddress}}/api/user
 
 ###
 
-GET {{CustomerManagement.API_HostAddress}}/api/user/1
+GET {{CustomerManagement.API_HostAddress}}/api/user/2
 
 ###
 
@@ -157,9 +157,9 @@ POST {{CustomerManagement.API_HostAddress}}/api/user
 Content-Type: application/json
 
 {
-        "UserName":"Test User 1",
+        "UserName":"Test User 2",
         "Phone": "123456780",
-        "Email":"test01mail.com",
+        "Email":"test02mail.com",
         "Password":"test123",
         "Address":"Airoli",
         "IsActive":true,
@@ -178,15 +178,14 @@ Content-Type: application/json
 
 ###
 
-PUT {{CustomerManagement.API_HostAddress}}/api/user/19
+PUT {{CustomerManagement.API_HostAddress}}/api/user/4
 Content-Type: application/json
 
 {
-
-        "UserId":19,
-        "UserName":"Test User 19",
+        "UserId":4,
+        "UserName":"Test User 2",
         "Phone": "123456780",
-        "Email":"test19mail.com",
+        "Email":"test02mail.com",
         "Password":"test123",
         "Address":"Airoli",
         "IsActive":true,
@@ -194,7 +193,32 @@ Content-Type: application/json
         "UpdatedBy":1,
         "GenderId":1,
         "RoleId":2
-        "OrderDetails" : [{"ProductId" : }]
 }
+
+###
+
+PUT {{CustomerManagement.API_HostAddress}}/api/user/4
+Content-Type: application/json
+
+{
+        "UserId":4,
+        "UserName":"Test User 14",
+        "Phone": "123456780",
+        "Email":"test04mail.com",
+        "Password":"test123",
+        "Address":"Airoli",
+        "IsActive":true,
+        "UpdatedBy":1,
+        "GenderId":1,
+        "RoleId":1
+}
+
+###
+
+DELETE {{CustomerManagement.API_HostAddress}}/api/user/4
+
+###
+
+GET {{CustomerManagement.API_HostAddress}}/api/role
 
 ###
