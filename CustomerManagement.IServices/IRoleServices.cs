@@ -17,6 +17,6 @@ namespace CustomerManagement.IServices
 
         Task<RoleDTO> UpdateRoleAsync(int id, UpdateRoleDTO updateRoleDTO);
 
-        Task<RoleDTO> CreateRoleAsync(RoleDTO RoleDTO);
+        Task<RoleDTO> CreateRoleAsync(RoleDTO roleDTO);
     }
 }

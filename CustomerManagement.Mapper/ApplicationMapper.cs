@@ -23,6 +23,17 @@ namespace CustomerManagement.Mapper
             CreateMap<Gender, GenderDTO>().ReverseMap();
             CreateMap<GenderDTO, UpdateGenderDTO>().ReverseMap();
             CreateMap<Gender, UpdateGenderDTO>().ReverseMap();
+
+            /*
+            CreateMap<User, UserDTO>()
+            .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender.GenderName))
+            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.RoleName)).ReverseMap();
+            */
+            CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<CreateUserDTO, User>().ReverseMap();
+            CreateMap<UserDTO, UpdateUserDTO>().ReverseMap();
+            CreateMap<User, UpdateUserDTO>().ReverseMap();
+
         }
     }
 }

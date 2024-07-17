@@ -15,8 +15,9 @@ namespace CustomerManagement.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EnquiryDetailsId { get; set; }
 
+        [MaxLength(1000)]
         public string Note { get; set; } = string.Empty;
-
+        public int EnquiryId { get; set; }
 
         public DateTimeOffset? FollowUpDate { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
@@ -25,9 +26,11 @@ namespace CustomerManagement.Model
         public DateTimeOffset UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
 
+        /*
         
         [ForeignKey("Enquiry")]
         public int EnquiryId { get; set; }
         public virtual Enquiry Enquiry { get; set; }
+        */
     }
 }

@@ -20,34 +20,53 @@ namespace CustomerManagement.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
 
+        [MaxLength(50)]
         public string UserName { get; set; } = string.Empty;
         
         [MinLength(10,ErrorMessage="Invalid Phone")]
+        [MaxLength(20)]
         public string Phone { get; set; } = string.Empty;
 
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [MaxLength(200)]
         public string Email { get; set; } = string.Empty;
 
         [MinLength(8, ErrorMessage = "Password must be 8 characters long")]
+        [MaxLength(50)]
         public string Password { get; set; } = string.Empty;
 
+        [MaxLength(150)]
         public string Address { get; set; } = string.Empty;
 
         public bool IsActive { get; set; } = true;
+
+
+        public int GenderId { get; set; } = 1;
+        public int RoleId { get; set; } = 2;
+        public int EnquiryId { get; set; } = -1;
+        /*
+        [ForeignKey("Gender")]
+        public int GenderId { get; set; } = 1;
+        public virtual Gender Gender {get; set;}
+
+        [ForeignKey("Role")]
+       public int RoleId { get; set; } = 2;
+        public virtual Role Role {get; set;}
+
+        [ForeignKey("Enquiry")]
+        public int EnquiryId { get; set; } = -1;
+        public virtual Enquiry Enquiry {  get; set;}
+
+        public virtual ICollection<Order> Orders {get;set;}
+        */
+
 
         public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.Now;
         public int? CreatedBy { get; set; }
         public DateTimeOffset? UpdatedDate { get; set; }
         public int? UpdatedBy { get; set; }
 
-        [ForeignKey("Gender")]
-        public int GenderId { get; set; } = 1;
-        public virtual Gender Gender {get; set;}
 
-        [ForeignKey("Role")]
-        public int RoleId { get; set; }
-        public virtual Role Role {get; set;}
 
-        public virtual ICollection<Order> Orders {get;set;} 
     }
 }

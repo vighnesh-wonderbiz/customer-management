@@ -41,20 +41,29 @@ namespace CustomerManagement.Model
         [Precision(18, 2)]
         public decimal UTGst { get; set; }
 
+
+        public int OrderId { get; set; }
+        public int ProductId { get; set; }
+        /*
+      [ForeignKey("Order")]
+      public int OrderId { get; set; }
+      public virtual Order Order { get; set; }
+
+      [ForeignKey("Product")]
+      public int ProductId { get; set; }
+      public virtual Product Product { get; set; }
+      */
+
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
+
+
         public DateTimeOffset CreatedDate { get; set; }
         public int CreatedBy { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
 
-        [ForeignKey("Order")]
-        public int OrderId { get; set; }
-        public virtual Order Order { get; set; }
 
-        [ForeignKey("Product")]
-        public int ProductId { get; set; }
-        public virtual Product Product { get; set; }
-
+      
     }
 }

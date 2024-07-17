@@ -15,16 +15,18 @@ namespace CustomerManagement.Model
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int LeadId { get; set; }
-
         public bool IsActive { get; set; } = false;
-
+        public int EnquiryId { get; set; }
+        /*
+        [ForeignKey("Enquiry")]
+        public int EnquiryId { get; set; }
+        public virtual Enquiry Enquiry { get; set; }
+        */
 
         public DateTimeOffset CreatedDate { get; set; }
         public int CreatedBy { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
-        [ForeignKey("Enquiry")]
-        public int EnquiryId { get; set; }
-        public virtual Enquiry Enquiry { get; set; }
+        
     }
 }

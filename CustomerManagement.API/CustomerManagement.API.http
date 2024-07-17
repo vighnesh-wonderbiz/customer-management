@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
   "IsSubscribable": false,
-  "ProductName": "Another Sample Product",
+  "ProductName": "Another Sample Product 3",
   "ProductDescription": "Sample Product Description",
   "ProductPrice": 99.99,
   "IsActive": true,
@@ -138,5 +138,63 @@ Content-Type: application/json
 ###
 
 DELETE {{CustomerManagement.API_HostAddress}}/api/gender/7
+
+###
+
+GET {{CustomerManagement.API_HostAddress}}/api/user
+
+###
+
+GET {{CustomerManagement.API_HostAddress}}/api/user
+
+###
+
+GET {{CustomerManagement.API_HostAddress}}/api/user/1
+
+###
+
+POST {{CustomerManagement.API_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+        "UserName":"Test User 1",
+        "Phone": "123456780",
+        "Email":"test01mail.com",
+        "Password":"test123",
+        "Address":"Airoli",
+        "IsActive":true,
+        "CreatedBy":1,
+        "UpdatedBy":1,
+        "GenderId":1,
+        "RoleId":2
+}
+
+###
+
+PUT {{CustomerManagement.API_HostAddress}}/api/user/0
+Content-Type: application/json
+
+"string"
+
+###
+
+PUT {{CustomerManagement.API_HostAddress}}/api/user/19
+Content-Type: application/json
+
+{
+
+        "UserId":19,
+        "UserName":"Test User 19",
+        "Phone": "123456780",
+        "Email":"test19mail.com",
+        "Password":"test123",
+        "Address":"Airoli",
+        "IsActive":true,
+        "CreatedBy":1,
+        "UpdatedBy":1,
+        "GenderId":1,
+        "RoleId":2
+        "OrderDetails" : [{"ProductId" : }]
+}
 
 ###

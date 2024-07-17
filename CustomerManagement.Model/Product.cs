@@ -19,16 +19,18 @@ namespace CustomerManagement.Model
 
         public bool IsSubscribable { get; set; }
 
+        [Required]
+        [MaxLength(100)]
         public string ProductName { get; set; } = string.Empty;
 
+        [MaxLength(700)]
         public string ProductDescription { get; set; } = string.Empty;
 
         [Precision(18, 2)]
         public decimal ProductPrice { get; set; }
-
         public int DurationInDays { get; set; } = 0;
 
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         [Precision(18, 2)]
         public decimal IGstRate { get; set; }

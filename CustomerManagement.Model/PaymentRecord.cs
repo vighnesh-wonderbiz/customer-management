@@ -15,11 +15,21 @@ namespace CustomerManagement.Model
 
         [Precision(18, 2)]
         public decimal Amount {get;set;}
-        
+        public int PaymentId { get; set; }
+
+        /*
+        [ForeignKey("Payment")]
+        public int PaymentId { get; set; }
+        public virtual Payment Payment { get; set; }
+        */
+
+
+
         public DateTimeOffset CreatedDate { get; set; }
         public int CreatedBy { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
 
+        
     }
 }

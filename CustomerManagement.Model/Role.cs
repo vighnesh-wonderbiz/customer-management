@@ -27,6 +27,7 @@ namespace CustomerManagement.Model
         public DateTimeOffset? UpdatedDate { get; set; }
         public int? UpdatedBy { get; set; }
 
-        public virtual ICollection<User> Users { get;set; }
+        
+        // public virtual ICollection<User> Users { get;set; }
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CustomerManagement.API.Migrations
 {
     [DbContext(typeof(CustomerManagementDbContext))]
-    [Migration("20240715094419_AddRelations")]
-    partial class AddRelations
+    [Migration("20240717071747_AddForeignKey")]
+    partial class AddForeignKey
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,20 +41,23 @@ namespace CustomerManagement.API.Migrations
 
                     b.Property<string>("EnquiryEmail")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("EnquiryName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("EnquiryPhone")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Source")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
@@ -66,8 +69,6 @@ namespace CustomerManagement.API.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("EnquiryId");
-
-                    b.HasIndex("StatusId");
 
                     b.ToTable("Enquiries");
                 });
@@ -94,7 +95,8 @@ namespace CustomerManagement.API.Migrations
 
                     b.Property<string>("Note")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<int>("UpdatedBy")
                         .HasColumnType("int");
@@ -103,8 +105,6 @@ namespace CustomerManagement.API.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("EnquiryDetailsId");
-
-                    b.HasIndex("EnquiryId");
 
                     b.ToTable("EqnuiryDetails");
                 });
@@ -136,10 +136,6 @@ namespace CustomerManagement.API.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("EnquiryInterestId");
-
-                    b.HasIndex("EnquiryId");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("EnquiryInterests");
                 });
@@ -204,8 +200,6 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasKey("LeadId");
 
-                    b.HasIndex("EnquiryId");
-
                     b.ToTable("Leads");
                 });
 
@@ -257,10 +251,6 @@ namespace CustomerManagement.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderId");
-
-                    b.HasIndex("PaymentId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -334,10 +324,6 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasKey("OrderDetailsId");
 
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
                     b.ToTable("OrderDetails");
                 });
 
@@ -349,18 +335,11 @@ namespace CustomerManagement.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
 
-                    b.Property<decimal>("Balance")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int>("PaymentRecordsId")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
@@ -395,7 +374,7 @@ namespace CustomerManagement.API.Migrations
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int?>("PaymentId")
+                    b.Property<int>("PaymentId")
                         .HasColumnType("int");
 
                     b.Property<int>("UpdatedBy")
@@ -405,8 +384,6 @@ namespace CustomerManagement.API.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("PaymentRecordId");
-
-                    b.HasIndex("PaymentId");
 
                     b.ToTable("PaymentRecords");
                 });
@@ -447,11 +424,13 @@ namespace CustomerManagement.API.Migrations
 
                     b.Property<string>("ProductDescription")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(700)
+                        .HasColumnType("nvarchar(700)");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("ProductPrice")
                         .HasPrecision(18, 2)
@@ -559,7 +538,8 @@ namespace CustomerManagement.API.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
@@ -569,7 +549,11 @@ namespace CustomerManagement.API.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("EnquiryId")
+                        .HasColumnType("int");
 
                     b.Property<int>("GenderId")
                         .HasColumnType("int");
@@ -579,11 +563,13 @@ namespace CustomerManagement.API.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
@@ -596,154 +582,15 @@ namespace CustomerManagement.API.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("UserId");
 
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.HasIndex("GenderId");
-
-                    b.HasIndex("RoleId");
-
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("CustomerManagement.Model.Enquiry", b =>
-                {
-                    b.HasOne("CustomerManagement.Model.Status", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Status");
-                });
-
-            modelBuilder.Entity("CustomerManagement.Model.EnquiryDetail", b =>
-                {
-                    b.HasOne("CustomerManagement.Model.Enquiry", "Enquiry")
-                        .WithMany()
-                        .HasForeignKey("EnquiryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Enquiry");
-                });
-
-            modelBuilder.Entity("CustomerManagement.Model.EnquiryInterest", b =>
-                {
-                    b.HasOne("CustomerManagement.Model.Enquiry", "Enquiry")
-                        .WithMany()
-                        .HasForeignKey("EnquiryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CustomerManagement.Model.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Enquiry");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("CustomerManagement.Model.Lead", b =>
-                {
-                    b.HasOne("CustomerManagement.Model.Enquiry", "Enquiry")
-                        .WithMany()
-                        .HasForeignKey("EnquiryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Enquiry");
-                });
-
-            modelBuilder.Entity("CustomerManagement.Model.Order", b =>
-                {
-                    b.HasOne("CustomerManagement.Model.Payment", "Payment")
-                        .WithMany()
-                        .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CustomerManagement.Model.User", "User")
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Payment");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CustomerManagement.Model.OrderDetail", b =>
-                {
-                    b.HasOne("CustomerManagement.Model.Order", "Order")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CustomerManagement.Model.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("CustomerManagement.Model.PaymentRecord", b =>
-                {
-                    b.HasOne("CustomerManagement.Model.Payment", null)
-                        .WithMany("PaymentRecords")
-                        .HasForeignKey("PaymentId");
-                });
-
-            modelBuilder.Entity("CustomerManagement.Model.User", b =>
-                {
-                    b.HasOne("CustomerManagement.Model.Gender", "Gender")
-                        .WithMany()
-                        .HasForeignKey("GenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CustomerManagement.Model.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Gender");
-
-                    b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("CustomerManagement.Model.Order", b =>
-                {
-                    b.Navigation("OrderDetails");
-                });
-
-            modelBuilder.Entity("CustomerManagement.Model.Payment", b =>
-                {
-                    b.Navigation("PaymentRecords");
-                });
-
-            modelBuilder.Entity("CustomerManagement.Model.Role", b =>
-                {
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("CustomerManagement.Model.User", b =>
-                {
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

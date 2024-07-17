@@ -15,16 +15,13 @@ namespace CustomerManagement.Model
 
         [Precision(18,2)]
         public decimal Price {get; set;}
-        [Precision(18, 2)]
-        public decimal Balance {get; set;}
         
         public DateTimeOffset CreatedDate { get; set; }
         public int CreatedBy { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
-        [ForeignKey("PaymentRecord")]
-        public int PaymentRecordsId {get; set;}
-        public virtual ICollection<PaymentRecord> PaymentRecords { get; set;}
+        
+        // public virtual IEnumerable<PaymentRecord> PaymentRecords { get; set;}
 
 
     }

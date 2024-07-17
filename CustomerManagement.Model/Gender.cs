@@ -17,6 +17,7 @@ namespace CustomerManagement.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int GenderId { get; set; }
 
+        [Required]
         public string GenderName { get; set; } = string.Empty;
 
         public DateTimeOffset? CreatedDate { get; set; }

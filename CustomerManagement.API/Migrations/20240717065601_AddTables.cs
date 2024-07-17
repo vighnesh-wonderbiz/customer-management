@@ -17,15 +17,14 @@ namespace CustomerManagement.API.Migrations
                 {
                     EnquiryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EnquiryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EnquiryEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EnquiryPhone = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Source = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EnquiryName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EnquiryEmail = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    EnquiryPhone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Source = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: false),
-                    StatusId = table.Column<int>(type: "int", nullable: false)
+                    UpdatedBy = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,9 +40,7 @@ namespace CustomerManagement.API.Migrations
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    EnquiryId = table.Column<int>(type: "int", nullable: false)
+                    UpdatedBy = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,13 +53,12 @@ namespace CustomerManagement.API.Migrations
                 {
                     EnquiryDetailsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     FollowUpDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: false),
-                    EnquiryId = table.Column<int>(type: "int", nullable: false)
+                    UpdatedBy = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,8 +92,7 @@ namespace CustomerManagement.API.Migrations
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: false),
-                    EnquiryId = table.Column<int>(type: "int", nullable: false)
+                    UpdatedBy = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -124,9 +119,7 @@ namespace CustomerManagement.API.Migrations
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
+                    UpdatedBy = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -148,9 +141,7 @@ namespace CustomerManagement.API.Migrations
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: false),
-                    PaymentId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UpdatedBy = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -181,12 +172,10 @@ namespace CustomerManagement.API.Migrations
                     PaymentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Balance = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: false),
-                    PaymentRecordsId = table.Column<int>(type: "int", nullable: false)
+                    UpdatedBy = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -200,8 +189,8 @@ namespace CustomerManagement.API.Migrations
                     ProductId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IsSubscribable = table.Column<bool>(type: "bit", nullable: false),
-                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProductDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ProductDescription = table.Column<string>(type: "nvarchar(700)", maxLength: 700, nullable: false),
                     ProductPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     DurationInDays = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
@@ -263,18 +252,16 @@ namespace CustomerManagement.API.Migrations
                 {
                     UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: true),
                     UpdatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    UpdatedBy = table.Column<int>(type: "int", nullable: true),
-                    GenderId = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false)
+                    UpdatedBy = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CustomerManagement.API.Migrations
 {
     [DbContext(typeof(CustomerManagementDbContext))]
-    [Migration("20240715094115_AddTables")]
+    [Migration("20240717065601_AddTables")]
     partial class AddTables
     {
         /// <inheritdoc />
@@ -41,23 +41,23 @@ namespace CustomerManagement.API.Migrations
 
                     b.Property<string>("EnquiryEmail")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("EnquiryName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("EnquiryPhone")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Source")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StatusId")
-                        .HasColumnType("int");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("UpdatedBy")
                         .HasColumnType("int");
@@ -84,15 +84,13 @@ namespace CustomerManagement.API.Migrations
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int>("EnquiryId")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset?>("FollowUpDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Note")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<int>("UpdatedBy")
                         .HasColumnType("int");
@@ -118,12 +116,6 @@ namespace CustomerManagement.API.Migrations
 
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int>("EnquiryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
 
                     b.Property<int>("UpdatedBy")
                         .HasColumnType("int");
@@ -182,9 +174,6 @@ namespace CustomerManagement.API.Migrations
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int>("EnquiryId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -231,9 +220,6 @@ namespace CustomerManagement.API.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("PaymentId")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset?>("StartDate")
                         .HasColumnType("datetimeoffset");
 
@@ -242,9 +228,6 @@ namespace CustomerManagement.API.Migrations
 
                     b.Property<DateTimeOffset>("UpdatedDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
 
                     b.HasKey("OrderId");
 
@@ -280,15 +263,9 @@ namespace CustomerManagement.API.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("ProdcutSubtotal")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("ProductPrice")
                         .HasPrecision(18, 2)
@@ -331,18 +308,11 @@ namespace CustomerManagement.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
 
-                    b.Property<decimal>("Balance")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int>("PaymentRecordsId")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
@@ -424,11 +394,13 @@ namespace CustomerManagement.API.Migrations
 
                     b.Property<string>("ProductDescription")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(700)
+                        .HasColumnType("nvarchar(700)");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<decimal>("ProductPrice")
                         .HasPrecision(18, 2)
@@ -536,7 +508,8 @@ namespace CustomerManagement.API.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
@@ -546,24 +519,21 @@ namespace CustomerManagement.API.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("GenderId")
-                        .HasColumnType("int");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("int");
@@ -573,7 +543,8 @@ namespace CustomerManagement.API.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("UserId");
 

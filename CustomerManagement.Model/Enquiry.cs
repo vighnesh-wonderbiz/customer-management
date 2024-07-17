@@ -15,24 +15,31 @@ namespace CustomerManagement.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EnquiryId { get; set; }
 
+        [MaxLength(50)]
         public string EnquiryName { get; set; } = string.Empty;
 
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        [MaxLength(200)]
         public string EnquiryEmail { get; set; } = string.Empty;
 
-        [MaxLength(10, ErrorMessage = "Invalid Phone")]
+        [MinLength(10, ErrorMessage = "Invalid Phone")]
+        [MaxLength(20)]
         public string EnquiryPhone { get; set; } = string.Empty;
-
+        [MaxLength(100)]
         public string Source { get; set; } = string.Empty;
+
+        public int StatusId { get; set; } = 1;
+        /*
+        [ForeignKey("Status")]
+        public int StatusId { get; set; }
+        public virtual Status Status {  get; set; }
+        */
 
         public DateTimeOffset CreatedDate { get; set; }
         public int CreatedBy { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
 
-        [ForeignKey("Status")]
-        public int StatusId { get; set; }
-        public virtual Status Status {  get; set; }
 
     }
 }

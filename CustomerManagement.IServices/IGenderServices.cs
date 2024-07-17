@@ -17,6 +17,6 @@ namespace CustomerManagement.IServices
 
         Task<GenderDTO> UpdateGenderAsync(int id, UpdateGenderDTO updateGenderDTO);
 
-        Task<GenderDTO> CreateGenderAsync(GenderDTO GenderDTO);
+        Task<GenderDTO> CreateGenderAsync(GenderDTO genderDTO);
     }
 }
