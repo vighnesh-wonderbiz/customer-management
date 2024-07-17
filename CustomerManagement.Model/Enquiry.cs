@@ -28,12 +28,9 @@ namespace CustomerManagement.Model
         [MaxLength(100)]
         public string Source { get; set; } = string.Empty;
 
-        public int StatusId { get; set; } = 1;
-        /*
         [ForeignKey("Status")]
         public int StatusId { get; set; }
-        public virtual Status Status {  get; set; }
-        */
+        public virtual Status EnquiryOfStatus {  get; set; }
 
         public DateTimeOffset CreatedDate { get; set; }
         public int CreatedBy { get; set; }

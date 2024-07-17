@@ -30,18 +30,16 @@ namespace CustomerManagement.Model
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
 
-        public int PaymentId { get; set; }
-        public int UserId { get; set; }
-        /*
         [ForeignKey("Payment")]
         public int PaymentId { get; set; }
-        public virtual Payment Payment { get; set; }
+        public virtual Payment OrderOfPayment { get; set; }
 
         [ForeignKey("User")]
         public int UserId { get; set; }
-        public virtual User User { get; set; }
-        public virtual ICollection<OrderDetail> OrderDetails {  get; set; }
-        */
+        public virtual User OrderOfUser { get; set; }
+
+        public virtual ICollection<OrderDetail> CurrentOrderDetails {  get; set; }
+        
 
         public DateTimeOffset CreatedDate { get; set; }
         public int CreatedBy { get; set; }

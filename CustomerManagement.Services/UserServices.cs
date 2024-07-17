@@ -40,8 +40,8 @@ namespace CustomerManagement.Services
                         newUser.Phone,
                         newUser.Email,
                         newUser.Address,
-                        //newUser.Gender.GenderName,
-                        //newUser.Role.RoleName,
+                        newUser.UserGender.GenderName,
+                        newUser.UserRole.RoleName,
                         newUser.CreatedDate
                     );
                 return mappedUser;
@@ -80,8 +80,8 @@ namespace CustomerManagement.Services
                         x.Phone,
                         x.Email,
                         x.Address,
-                        //x.Gender.GenderName,
-                        //x.Role.RoleName,
+                        x.UserGender.GenderName,
+                        x.UserRole.RoleName,
                         x.CreatedDate
                 ));
                 return l;
@@ -110,8 +110,8 @@ namespace CustomerManagement.Services
                         user.Phone,
                         user.Email,
                         user.Address,
-                        //user.Gender.GenderName,
-                        //user.Role.RoleName,
+                        user.UserGender.GenderName,
+                        user.UserRole.RoleName,
                         user.CreatedDate
                         );
                     return mappedUser;
@@ -149,8 +149,8 @@ namespace CustomerManagement.Services
                         updatedUser.Phone,
                         updatedUser.Email,
                         updatedUser.Address,
-                       // updatedUser.Gender.GenderName,
-                       // updatedUser.Role.RoleName,
+                        updatedUser.UserGender.GenderName,
+                        updatedUser.UserRole.RoleName,
                         updatedUser.CreatedDate
                     );
                     return mappedUser;

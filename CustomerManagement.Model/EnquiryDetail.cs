@@ -17,7 +17,10 @@ namespace CustomerManagement.Model
 
         [MaxLength(1000)]
         public string Note { get; set; } = string.Empty;
+        
+        [ForeignKey("Enquiry")]
         public int EnquiryId { get; set; }
+        public virtual Enquiry EnquiryDetailsOfEnquiry { get; set; }
 
         public DateTimeOffset? FollowUpDate { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
@@ -26,11 +29,6 @@ namespace CustomerManagement.Model
         public DateTimeOffset UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
 
-        /*
-        
-        [ForeignKey("Enquiry")]
-        public int EnquiryId { get; set; }
-        public virtual Enquiry Enquiry { get; set; }
-        */
+
     }
 }

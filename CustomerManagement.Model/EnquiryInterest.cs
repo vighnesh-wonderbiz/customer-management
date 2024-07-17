@@ -12,8 +12,13 @@ namespace CustomerManagement.Model
     {
         public int EnquiryInterestId { get; set; }
 
+        [ForeignKey("Product")]
         public int ProductId { get; set; }
-        public int EnquiryId { get; set; }
+        public virtual Product EnquiryInterestOfProduct { get; set; }
+
+        [ForeignKey("Enquiry")]
+        public int EnquiryId {  get; set; }
+        public virtual Enquiry EnquiryInterestOfEnquiry { get; set; }
 
         public DateTimeOffset CreatedDate { get; set; }
         public int CreatedBy { get; set; }
@@ -22,14 +27,6 @@ namespace CustomerManagement.Model
 
 
 
-        /*
-        [ForeignKey("Product")]
-        public int ProductId { get; set; }
-        public virtual Product Product { get; set; }
 
-        [ForeignKey("Enquiry")]
-        public int EnquiryId {  get; set; }
-        public virtual Enquiry Enquiry { get; set; }
-        */
     }
 }

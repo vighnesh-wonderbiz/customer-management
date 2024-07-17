@@ -21,8 +21,7 @@ namespace CustomerManagement.Model
         public DateTimeOffset UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
         
-        // public virtual IEnumerable<PaymentRecord> PaymentRecords { get; set;}
-
+        public virtual IEnumerable<PaymentRecord> CurrentPaymentRecords { get; set;}
 
     }
 }

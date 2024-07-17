@@ -40,25 +40,19 @@ namespace CustomerManagement.Model
 
         public bool IsActive { get; set; } = true;
 
-
-        public int GenderId { get; set; } = 1;
-        public int RoleId { get; set; } = 2;
-        public int EnquiryId { get; set; } = -1;
-        /*
         [ForeignKey("Gender")]
         public int GenderId { get; set; } = 1;
-        public virtual Gender Gender {get; set;}
+        public virtual Gender UserGender {get; set;}
 
         [ForeignKey("Role")]
        public int RoleId { get; set; } = 2;
-        public virtual Role Role {get; set;}
+        public virtual Role UserRole {get; set;}
 
         [ForeignKey("Enquiry")]
-        public int EnquiryId { get; set; } = -1;
-        public virtual Enquiry Enquiry {  get; set;}
+        public int? EnquiryId { get; set; }
+        public virtual Enquiry UserOfEnquiry {  get; set;}
 
         public virtual ICollection<Order> Orders {get;set;}
-        */
 
 
         public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.Now;

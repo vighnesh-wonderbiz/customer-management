@@ -14,7 +14,7 @@ namespace CustomerManagement.API.Migrations
                 name: "EnquiryId",
                 table: "Users",
                 type: "int",
-                nullable: false,
+                nullable: true,
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
