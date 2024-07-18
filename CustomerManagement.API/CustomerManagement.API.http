@@ -241,3 +241,10 @@ Content-Type: application/json
 }
 
 ###
+
+PUT {{CustomerManagement.API_HostAddress}}/api/order/4
+Content-Type: application/json
+
+"string"
+
+###

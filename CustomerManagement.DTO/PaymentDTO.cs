@@ -10,5 +10,17 @@ using System.Threading.Tasks;
 
 namespace CustomerManagement.DTO
 {
-    
+    public record PaymentDTO(
+       int OrderId,
+       decimal Price,
+       DateTimeOffset? CreatedDate,
+       int? CreatedBy,
+       DateTimeOffset? UpdatedDate,
+       int? UpdatedBy
+   );
+    public record UpdatePaymentDTO(
+        int PaymentId,
+        int OrderId,
+        decimal Price
+    );
 }

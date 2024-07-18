@@ -36,13 +36,18 @@ namespace CustomerManagement.Mapper
             CreateMap<User, UpdateUserDTO>().ReverseMap();
 
             CreateMap<Order,UpdateOrderDTO>().ReverseMap();
-/*
-            CreateMap<Order, CreateOrderDTO>();
-            CreateMap<CreateOrderDTO, Order>();
-            CreateMap<OrderDTO, CreateOrderDTO>().ReverseMap();
-            CreateMap<OrderDTO, Order>().ReverseMap();
-            CreateMap<OrderDTO, Order>().ReverseMap();
-*/
+            CreateMap<OrderDTO,UpdateOrderDTO>().ReverseMap();
+
+            CreateMap<Payment, PaymentDTO>().ReverseMap();
+            CreateMap<PaymentDTO, UpdatePaymentDTO>().ReverseMap();
+            CreateMap<Payment, UpdatePaymentDTO>().ReverseMap();
+            /*
+                        CreateMap<Order, CreateOrderDTO>();
+                        CreateMap<CreateOrderDTO, Order>();
+                        CreateMap<OrderDTO, CreateOrderDTO>().ReverseMap();
+                        CreateMap<OrderDTO, Order>().ReverseMap();
+                        CreateMap<OrderDTO, Order>().ReverseMap();
+            */
 
         }
     }

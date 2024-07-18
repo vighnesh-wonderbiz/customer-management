@@ -99,9 +99,15 @@ namespace CustomerManagement.Services
             }
         }
 
-        public Task<bool> DeleteOrderAsync(int id)
+        public async Task<bool> DeleteOrderAsync(int id)
         {
-            throw new NotImplementedException();
+            var order = await orderRepository.FindByIdAsync(id);
+            if(order != null)
+            {
+                var isDeleted = await orderRepository.DeleteAsync(order);
+                return isDeleted;
+            }
+            return false;
         }
 
         public async Task<IEnumerable<OrderDTO>> GetAllOrdersAsync()
@@ -113,29 +119,74 @@ namespace CustomerManagement.Services
 
         public async Task<OrderDTO> GetOrderByIdAsync(int id)
         {
-            var order = await orderRepository.FindByIdAsync(id);
-            var mappedOrder = orderRepository.MapOrders(order);
-            return mappedOrder;
+            try
+            {
+                var order = await orderRepository.FindByIdAsync(id);
+                if (order != null)
+                {
+                    var mappedOrder = orderRepository.MapOrders(order);
+                    return mappedOrder;
+                }
+                throw new Exception($"Order with id:{id} not found");
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public async Task<OrderDTO> UpdateOrderAsync(int id, UpdateOrderDTO updateOrderDTO)
         {
-            if (id != updateOrderDTO.OrderId) throw new Exception("Invalid id in request body");
             var oldOrder = await orderRepository.FindByIdAsync(id);
+            var orderDetails = await orderRepository.GetOrderDetailsOfOrder(id);
             if (oldOrder != null)
             {
-                var oldOrderDTO = mapper.Map<UpdateOrderDTO>(oldOrder);
-                var updateRequestDTO = mapper.Map(updateOrderDTO, oldOrder);
-
-                var updateRequest = mapper.Map<Order>(updateRequestDTO);
-                updateRequest.UpdatedDate = DateTimeOffset.Now;
-                updateRequest.CreatedDate = oldOrder.CreatedDate;
-                updateRequest.CreatedBy = oldOrder.CreatedBy;
-
-                var updatedOrder = await orderRepository.UpdateAsync(updateRequest);
-                var populateOrder = await orderRepository.FindByIdAsync(updatedOrder.OrderId);
-                var mappedOrder = orderRepository.MapOrders(populateOrder);
-                return mappedOrder;
+                var productsId = orderDetails.Keys.ToList();
+                var oldOrderProductsId = oldOrder.CurrentOrderDetails.Select(p => p.ProductId).ToList();
+                if (productsId != null && oldOrderProductsId != null &&
+                productsId.OrderBy(x => x).SequenceEqual(oldOrderProductsId.OrderBy(x => x)))
+                {
+                    // var products = await _productRepository.FetchProductsByIdAsync(productsId);
+                    // var updatedProduct = mapper.Map<Order>(updateOrderDTO);
+                    Order order = new Order();
+                    order.OrderId = updateOrderDTO.OrderId;
+                    order.Balance = updateOrderDTO.Balance;
+                    
+                    order.CurrentOrderDetails = updateOrderDTO.CurrentOrderDetails.Select(x => new OrderDetail()
+                    {
+                        OrderDetailsId= x.OrderDetailsId,
+                        ProductId = x.ProductId,
+                        Quantity = x.Quantity,
+                        ProductPrice = orderDetails[x.OrderDetailsId].OrderDetailOfProduct.ProductPrice,
+                        ProdcutSubtotal = orderDetails[x.OrderDetailsId].OrderDetailOfProduct.ProductPrice * x.Quantity,
+                        
+                        ProductTotal = orderDetails[x.OrderDetailsId].OrderDetailOfProduct.ProductPrice * x.Quantity + 
+                        x.IGst != orderDetails[x.OrderDetailsId].OrderDetailOfProduct.IGstRate ? x.IGst : orderDetails[x.OrderDetailsId].OrderDetailOfProduct.IGstRate + 
+                        x.CGst != orderDetails[x.OrderDetailsId].OrderDetailOfProduct.CGstRate ? x.CGst : orderDetails[x.OrderDetailsId].OrderDetailOfProduct.CGstRate + 
+                        x.SGst != orderDetails[x.OrderDetailsId].OrderDetailOfProduct.SGstRate ? x.SGst : orderDetails[x.OrderDetailsId].OrderDetailOfProduct.SGstRate + 
+                        x.UTGst != orderDetails[x.OrderDetailsId].OrderDetailOfProduct.UTGstRate ? x.UTGst : orderDetails[x.OrderDetailsId].OrderDetailOfProduct.UTGstRate,
+                        StartDate = orderDetails[x.OrderDetailsId].OrderDetailOfProduct.StartDate,
+                        EndDate = orderDetails[x.OrderDetailsId].OrderDetailOfProduct.EndDate,
+                        CreatedDate = orderDetails[x.OrderDetailsId].OrderDetailOfProduct.CreatedDate,
+                        UpdatedDate = x.UpdatedDate,
+                        CreatedBy = orderDetails[x.OrderDetailsId].OrderDetailOfProduct.CreatedBy,
+                        UpdatedBy = x.UpdatedBy
+                    }).ToList();
+                    order.OrderTotal = order.CurrentOrderDetails.Sum(p => p.ProductTotal);
+                    order.Balance = order.OrderTotal;
+                    order.Discount = order.CurrentOrderDetails.Sum(p => p.Discount);
+                    order.BalanceReminder = DateTimeOffset.Now;
+                    order.UserId = updateOrderDTO.UserId;
+                    order.CreatedDate = oldOrder.CreatedDate;
+                    order.UpdatedDate = oldOrder.UpdatedDate;
+                    order.CreatedBy = oldOrder.CreatedBy;
+                    order.UpdatedBy = updateOrderDTO.UpdatedBy;
+                    var createdOrder = await orderRepository.UpdateAsync(order);
+                    var updatedOrder = await orderRepository.FindByIdAsync(createdOrder.OrderId);
+                    var mappedOrder = orderRepository.MapOrders(updatedOrder);
+                    return mappedOrder;
+                }
+                throw new Exception("Invalid Operation: Cannot update product not present in order summary.");
             }
             else
             {

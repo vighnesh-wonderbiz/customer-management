@@ -39,22 +39,15 @@ namespace CustomerManagement.DTO
     );
 
     public record UpdateOrderDetailDTO(
+        int OrderDetailsId,
         int Quantity,
-        decimal ProductPrice,
-        decimal ProdcutSubtotal, // productPrice * quantity
-        decimal ProductTotal, // ProductSubtotal + Gst
         decimal Discount,
         decimal IGst,
         decimal CGst,
         decimal SGst,
         decimal UTGst,
         int ProductId,
-        DateTimeOffset? StartDate,
-        DateTimeOffset? EndDate,
-        DateTimeOffset CreatedDate,
         DateTimeOffset UpdatedDate,
-        int CreatedBy,
         int UpdatedBy
     );
-
 }

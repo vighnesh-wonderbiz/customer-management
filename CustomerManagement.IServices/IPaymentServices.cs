@@ -9,7 +9,6 @@ namespace CustomerManagement.IServices
 {
     public interface IPaymentServices
     {
-        /*
         
         Task<IEnumerable<PaymentDTO>> GetAllPaymentsAsync();
 
@@ -19,7 +18,6 @@ namespace CustomerManagement.IServices
 
         Task<PaymentDTO> UpdatePaymentAsync(int id, UpdatePaymentDTO updatePaymentDTO);
 
-        Task<PaymentDTO> CreatePaymentAsync(CreatePaymentDTO createPaymentDTO);
-        */
+        Task<PaymentDTO> CreatePaymentAsync(PaymentDTO paymentDTO);
     }
 }

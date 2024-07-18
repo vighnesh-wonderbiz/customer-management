@@ -45,17 +45,12 @@ namespace CustomerManagement.DTO
     );
     public record UpdateOrderDTO(
         int OrderId,
-        decimal OrderTotal,
         decimal Discount,
         decimal Balance,
         DateTimeOffset? BalanceReminder,
-        DateTimeOffset? StartDate,
-        DateTimeOffset? EndDate,
         int UserId,
-        DateTimeOffset CreatedDate,
-        DateTimeOffset UpdatedDate,
-        int CreatedBy,
-        int UpdatedBy
+        int UpdatedBy,
+        IEnumerable<UpdateOrderDetailDTO> CurrentOrderDetails
     );
     
 }

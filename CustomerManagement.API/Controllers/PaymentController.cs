@@ -10,23 +10,21 @@ namespace CustomerManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class PaymentController : ControllerBase
     {
-        private readonly IOrderServices orderServices;
-
-        public OrderController(IOrderServices _orderServices)
+        private readonly IPaymentServices paymentServices;
+        public PaymentController(IPaymentServices _paymentServices)
         {
-            orderServices = _orderServices;
+            paymentServices = _paymentServices;
         }
-
-        // GET: api/<OrderController>
+        // GET: api/<PaymentController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderDTO>>> Get()
+        public async Task<ActionResult<IEnumerable<PaymentDTO>>> Get()
         {
             try
             {
-                var orders = await orderServices.GetAllOrdersAsync();
-                return Ok(orders);
+                var payments = await paymentServices.GetAllPaymentsAsync();
+                return Ok(payments);
             }
             catch (Exception ex)
             {
@@ -34,18 +32,14 @@ namespace CustomerManagement.API.Controllers
             }
         }
 
-        // GET api/<OrderController>/5
+        // GET api/<PaymentController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OrderDTO>> Get(int id)
+        public async Task<ActionResult<PaymentDTO>> Get(int id)
         {
             try
             {
-                var order = await orderServices.GetOrderByIdAsync(id);
-                return Ok(order);
-            }
-            catch (InvalidDataException e)
-            {
-                return BadRequest(e.Message);
+                var payment = await paymentServices.GetPaymentByIdAsync(id);
+                return Ok(payment);
             }
             catch (Exception ex)
             {
@@ -53,14 +47,16 @@ namespace CustomerManagement.API.Controllers
             }
         }
 
-        // POST api/<OrderController>
+        // POST api/<PaymentController>
         [HttpPost]
-        public async Task<ActionResult<CreatedOrderDTO>> Post([FromBody] CreateOrderDTO createOrderDto)
+        public async Task<ActionResult<Payment>> Post([FromBody] PaymentDTO paymentDTO)
         {
+
             try
             {
-                var order = await orderServices.PostOrderAsync(createOrderDto);
-                return Ok(order);
+                var payment = await paymentServices.CreatePaymentAsync(paymentDTO);
+                return Ok(payment);
+
             }
             catch (Exception e)
             {
@@ -68,16 +64,16 @@ namespace CustomerManagement.API.Controllers
             }
         }
 
-        // PUT api/<OrderController>/5
+        // PUT api/<PaymentController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<OrderDTO>> Put(int id, [FromBody] UpdateOrderDTO updateOrderDTO)
+        public async Task<ActionResult<PaymentDTO>> Put(int id, [FromBody] UpdatePaymentDTO updatePaymentDTO)
         {
             try
             {
-                if (id != updateOrderDTO.OrderId) throw new InvalidOperationException("Invalid id provided in request body");
+                if (id != updatePaymentDTO.PaymentId) throw new InvalidOperationException("Invalid id provided in request body");
 
-                var updatedOrder = await orderServices.UpdateOrderAsync(id, updateOrderDTO);
-                return Ok(updatedOrder);
+                var updatedPayment = await paymentServices.UpdatePaymentAsync(id, updatePaymentDTO);
+                return Ok(updatedPayment);
             }
             catch (InvalidOperationException e)
             {
@@ -89,13 +85,13 @@ namespace CustomerManagement.API.Controllers
             }
         }
 
-        // DELETE api/<OrderController>/5
+        // DELETE api/<PaymentController>/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> Delete(int id)
         {
             try
             {
-                var isDeleted = await orderServices.DeleteOrderAsync(id);
+                var isDeleted = await paymentServices.DeletePaymentAsync(id);
                 return Ok(isDeleted);
             }
             catch (Exception e)

@@ -14,8 +14,10 @@ namespace CustomerManagement.Repository
 {
     public class OrderRepository : Repository<Order>, IOrderRepository
     {
+        private readonly CustomerManagementDbContext context;
         public OrderRepository(CustomerManagementDbContext _context) : base(_context)
         {
+            context = _context;
         }
 
         public OrderDTO MapOrders(Order order)
@@ -61,5 +63,11 @@ namespace CustomerManagement.Repository
                 order.CreatedDate
             );
         }
+        public async Task <IDictionary<int,OrderDetail>> GetOrderDetailsOfOrder(int id){
+            var orderDetails = await context.OrderDetails.Include(p=>p.OrderDetailOfProduct).Where(od=>od.OrderId == id).ToListAsync();
+            var orderDictonary = orderDetails.ToDictionary(od => od.OrderDetailsId, p => p);
+            return orderDictonary;
+        }
     }
+    
 }
