@@ -1,5 +1,6 @@
 ﻿using CustomerManagement.Data;
 using CustomerManagement.IRepositories;
+using CustomerManagement.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,10 +23,9 @@ namespace CustomerManagement.Repository
         {
             try
             {
-
                 var addT = await context.AddAsync(t);
                 var savedT = await context.SaveChangesAsync();
-                return t;
+                return addT.Entity;
             }
             catch (Exception e)
             {
@@ -51,6 +51,17 @@ namespace CustomerManagement.Repository
         {
             try
             {
+                if (typeof(T) == typeof(Order))
+                {
+                    var populatedOrder = await context.Set<Order>()
+                                        .Include(u=>u.OrderOfUser)
+                                            .ThenInclude(r=>r.UserRole)
+                                        .Include(u=>u.OrderOfUser)
+                                            .ThenInclude(g=>g.UserGender)
+                                        .Include(od => od.CurrentOrderDetails)
+                                            .ThenInclude(p => p.OrderDetailOfProduct).ToListAsync();
+                    return populatedOrder.Cast<T>();
+                }
                 var tList = await context.Set<T>().ToListAsync();
                 return tList;
             }
@@ -64,6 +75,18 @@ namespace CustomerManagement.Repository
         {
             try
             {
+                if (typeof(T) == typeof(Order))
+                {
+                    var populatedOrder = await context.Set<Order>()
+                                        .Include(u=>u.OrderOfUser)
+                                            .ThenInclude(r=>r.UserRole)
+                                        .Include(u=>u.OrderOfUser)
+                                            .ThenInclude(g=>g.UserGender)
+                                        .Include(od => od.CurrentOrderDetails)
+                                            .ThenInclude(p => p.OrderDetailOfProduct)
+                                        .FirstOrDefaultAsync(o=>o.OrderId == id);
+                    return populatedOrder as T;
+                }
                 var t = await context.Set<T>().FindAsync(id);
                 return t;
             }

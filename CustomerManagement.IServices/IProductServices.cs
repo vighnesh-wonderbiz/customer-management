@@ -18,5 +18,7 @@ namespace CustomerManagement.IServices
         Task<ProductDTO> UpdateProductAsync(int id, UpdateProductDTO updateProductDTO);
 
         Task<ProductDTO> CreateProductAsync(ProductDTO productDTO);
+
+        Task<IEnumerable<ProductDTO>> GetProductsByIdAsync(IEnumerable<int> id);
     }
 }

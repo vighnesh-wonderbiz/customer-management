@@ -30,7 +30,7 @@ namespace CustomerManagement.Model
 
         [ForeignKey("Status")]
         public int StatusId { get; set; }
-        public virtual Status EnquiryOfStatus {  get; set; }
+        public virtual Status EnquiryOfStatus { get; set; }
 
         public DateTimeOffset CreatedDate { get; set; }
         public int CreatedBy { get; set; }

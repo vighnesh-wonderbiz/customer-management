@@ -85,6 +85,20 @@ namespace CustomerManagement.Services
             }
         }
 
+        public async Task<IEnumerable<ProductDTO>> GetProductsByIdAsync(IEnumerable<int> id)
+        {
+            try
+            {
+                var products = await productRepository.FetchProductsByIdAsync(id);
+                var mappedProducts = mapper.Map<IEnumerable<ProductDTO>>(products);
+                return mappedProducts;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
         public async Task<ProductDTO> UpdateProductAsync(int id, UpdateProductDTO updateProductDTO)
         {
             try

@@ -11,7 +11,8 @@ namespace CustomerManagement.Mapper
 {
     public class ApplicationMapper : Profile
     {
-        public ApplicationMapper() {
+        public ApplicationMapper()
+        {
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<ProductDTO, UpdateProductDTO>().ReverseMap();
             CreateMap<Product, UpdateProductDTO>().ReverseMap();
@@ -33,6 +34,15 @@ namespace CustomerManagement.Mapper
             CreateMap<CreateUserDTO, User>().ReverseMap();
             CreateMap<UserDTO, UpdateUserDTO>().ReverseMap();
             CreateMap<User, UpdateUserDTO>().ReverseMap();
+
+            CreateMap<Order,UpdateOrderDTO>().ReverseMap();
+/*
+            CreateMap<Order, CreateOrderDTO>();
+            CreateMap<CreateOrderDTO, Order>();
+            CreateMap<OrderDTO, CreateOrderDTO>().ReverseMap();
+            CreateMap<OrderDTO, Order>().ReverseMap();
+            CreateMap<OrderDTO, Order>().ReverseMap();
+*/
 
         }
     }

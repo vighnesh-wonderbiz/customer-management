@@ -222,3 +222,22 @@ DELETE {{CustomerManagement.API_HostAddress}}/api/user/4
 GET {{CustomerManagement.API_HostAddress}}/api/role
 
 ###
+
+POST {{CustomerManagement.API_HostAddress}}/api/order
+Content-Type: application/json
+
+{
+    "Discount": 0,
+    "UserId": 3,
+    "CreatedBy": 3,
+    "UpdatedBy": 3,
+    "CurrentOrderDetails": [
+        {
+            "Quantity": 1,
+            "Discount": 0,
+            "ProductId": 1
+        }
+    ]
+}
+
+###

@@ -9,5 +9,6 @@ namespace CustomerManagement.IRepositories
 {
     public interface IProductRepository:IRepository<Product>
     {
+        Task <Dictionary<int,Product>> FetchProductsByIdAsync (IEnumerable<int> id);
     }
 }

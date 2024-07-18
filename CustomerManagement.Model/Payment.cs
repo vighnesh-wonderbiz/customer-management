@@ -11,17 +11,19 @@ namespace CustomerManagement.Model
     [Table("Payments")]
     public class Payment
     {
-        public int PaymentId {get; set;}
+        public int PaymentId { get; set; }
 
-        [Precision(18,2)]
-        public decimal Price {get; set;}
-        
+        [ForeignKey("Order")]
+        public int OrderId { get; set; }
+        public virtual Order OrderOfPayment { get; set; }
+
+        [Precision(18, 2)]
+        public decimal Price { get; set; }
+
         public DateTimeOffset CreatedDate { get; set; }
         public int CreatedBy { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
         public int UpdatedBy { get; set; }
-        
-        public virtual IEnumerable<PaymentRecord> CurrentPaymentRecords { get; set;}
 
     }
 }

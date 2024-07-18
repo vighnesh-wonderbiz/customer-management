@@ -15,7 +15,6 @@
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
-
 # Mono auto generated files
 mono_crash.*
 
@@ -482,3 +481,4 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+temp.txt

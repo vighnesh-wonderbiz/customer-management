@@ -25,6 +25,14 @@ namespace CustomerManagement.DTO
         int DurationInDays = 0
     );
 
+    public record ProductOrderDetail(
+        bool IsSubscribable,
+        string ProductName,
+        string ProductDescription,
+        bool IsActive,
+        DateTimeOffset CreatedDate
+    );
+
     public record UpdateProductDTO(
         bool IsSubscribable,
         string ProductName,

@@ -22,7 +22,7 @@ namespace CustomerManagement.Data
         public DbSet<OrderDetail> OrderDetails { get; set; }
         
         public DbSet<Payment> Payments { get; set; }
-        public DbSet<PaymentRecord> PaymentRecords{ get; set; }
+         // public DbSet<PaymentRecord> PaymentRecords{ get; set; }
 
         public DbSet<Enquiry> Enquiries { get; set; }
         public DbSet<EnquiryDetail> EnquiryDetails { get; set; }
