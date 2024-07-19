@@ -40,6 +40,9 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 builder.Services.AddScoped<IPaymentServices, PaymentServices>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+
+builder.Services.AddScoped<IStatusServices, StatusServices>();
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 // Configure the HTTP request pipeline.
 var app = builder.Build();
 app.UseAuthorization();

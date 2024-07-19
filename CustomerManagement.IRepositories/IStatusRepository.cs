@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CustomerManagement.IRepositories
 {
-    public interface IStatusRepository :IRepository<User>
+    public interface IStatusRepository :IRepository<Status>
     {
 
     }

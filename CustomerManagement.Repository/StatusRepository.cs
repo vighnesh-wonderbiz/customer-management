@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace CustomerManagement.Repository
 {
 
-    public class StatusRepository : Repository<User>, IStatusRepository
+    public class StatusRepository : Repository<Status>, IStatusRepository
     {
         private readonly CustomerManagementDbContext _context;
         public StatusRepository(CustomerManagementDbContext context) : base(context)
