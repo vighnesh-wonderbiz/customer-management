@@ -31,7 +31,6 @@ namespace CustomerManagement.Repository
                 enquiry.Source
             );
             return mappedEnquiry;
-
         }
 
         public async override Task<Enquiry> FindByIdAsync(int id)

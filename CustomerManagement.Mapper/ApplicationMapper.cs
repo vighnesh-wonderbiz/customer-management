@@ -45,7 +45,10 @@ namespace CustomerManagement.Mapper
             CreateMap<CreateEnquiryDTO, Enquiry>().ReverseMap();
             CreateMap<UpdateEnquiryDTO, EnquiryDTO>().ReverseMap();
             CreateMap<EnquiryDTO, Enquiry>().ReverseMap();
-
+           
+            CreateMap<CreateEnquiryDetailDTO, EnquiryDetail>().ReverseMap();
+            CreateMap<UpdateEnquiryDetailDTO, EnquiryDetailDTO>().ReverseMap();
+            CreateMap<EnquiryDetailDTO, EnquiryDetail>().ReverseMap();
 
         }
     }
