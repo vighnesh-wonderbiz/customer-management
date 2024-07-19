@@ -1,7 +1,6 @@
 ﻿using CustomerManagement.DTO;
 using CustomerManagement.IServices;
 using CustomerManagement.Model;
-using CustomerManagement.Services;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,23 +9,23 @@ namespace CustomerManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class EnquiryController : ControllerBase
     {
-        private readonly IUserServices userServices;
+        private readonly IEnquiryServices enquiryServices;
 
-        public UserController(IUserServices _userServices)
+        public EnquiryController(IEnquiryServices _enquiryServices)
         {
-            userServices = _userServices;
+            enquiryServices = _enquiryServices;
         }
 
-        // GET: api/<UserController>
+        // GET: api/<EnquiryController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> Get()
+        public async Task<ActionResult<IEnumerable<EnquiryDTO>>> Get()
         {
             try
             {
-                var users = await userServices.GetAllUsersAsync();
-                return Ok(users);
+                var enquiries = await enquiryServices.GetAllEnquiriesAsync();
+                return Ok(enquiries);
             }
             catch (Exception e)
             {
@@ -34,14 +33,14 @@ namespace CustomerManagement.API.Controllers
             }
         }
 
-        // GET api/<UserController>/5
+        // GET api/<EnquiryController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> Get(int id)
+        public async Task<ActionResult<EnquiryDTO>> Get(int id)
         {
             try
             {
-                var user = await userServices.GetUserByIdAsync(id);
-                return Ok(user);
+                var enquiry = await enquiryServices.GetEnquiryByIdAsync(id);
+                return Ok(enquiry);
             }
             catch (InvalidDataException e)
             {
@@ -53,14 +52,14 @@ namespace CustomerManagement.API.Controllers
             }
         }
 
-        // POST api/<UserController>
+        // POST api/<EnquiryController>
         [HttpPost]
-        public async Task<ActionResult<UserDTO>> Post([FromBody] CreateUserDTO createUserDto)
+        public async Task<ActionResult<EnquiryDTO>> Post([FromBody] CreateEnquiryDTO createEnquiryDto)
         {
             try
             {
-                var user = await userServices.CreateUserAsync(createUserDto);
-                return Ok(user);
+                var enquiry = await enquiryServices.CreateEnquiryAsync(createEnquiryDto);
+                return Ok(enquiry);
 
             }
             catch (Exception e)
@@ -69,16 +68,16 @@ namespace CustomerManagement.API.Controllers
             }
         }
 
-        // PUT api/<UserController>/5
+        // PUT api/<EnquiryController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<UserDTO>> Put(int id, [FromBody] UpdateUserDTO updateUserDTO)
+        public async Task<ActionResult<EnquiryDTO>> Put(int id, [FromBody] UpdateEnquiryDTO updateEnquiryDTO)
         {
             try
             {
-                if (id != updateUserDTO.UserId) throw new InvalidOperationException("Invalid id provided in request body");
+                if (id != updateEnquiryDTO.EnquiryId) throw new InvalidOperationException("Invalid id provided in request body");
 
-                var updatedUser = await userServices.UpdateUserAsync(id, updateUserDTO);
-                return Ok(updatedUser);
+                var updatedEnquiry = await enquiryServices.UpdateEnquiryAsync(id, updateEnquiryDTO);
+                return Ok(updatedEnquiry);
             }
             catch (InvalidOperationException e)
             {
@@ -90,14 +89,13 @@ namespace CustomerManagement.API.Controllers
             }
         }
 
-        // DELETE api/<UserController>/5
+        // DELETE api/<EnquiryController>/5
         [HttpDelete("{id}")]
-
         public async Task<ActionResult<bool>> Delete(int id)
         {
             try
             {
-                var isDeleted = await userServices.DeleteUserAsync(id);
+                var isDeleted = await enquiryServices.DeleteEnquiryAsync(id);
                 return Ok(isDeleted);
             }
             catch (Exception e)
