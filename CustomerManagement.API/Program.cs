@@ -36,6 +36,10 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<IOrderServices, OrderServices>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+
+builder.Services.AddScoped<IPaymentServices, PaymentServices>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 // Configure the HTTP request pipeline.
 var app = builder.Build();
 app.UseAuthorization();

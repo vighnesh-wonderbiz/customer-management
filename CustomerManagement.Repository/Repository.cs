@@ -47,21 +47,10 @@ namespace CustomerManagement.Repository
             }
         }
 
-        public async Task<IEnumerable<T>> FindAllAsync()
+        public virtual async Task<IEnumerable<T>> FindAllAsync()
         {
             try
             {
-                if (typeof(T) == typeof(Order))
-                {
-                    var populatedOrder = await context.Set<Order>()
-                                        .Include(u=>u.OrderOfUser)
-                                            .ThenInclude(r=>r.UserRole)
-                                        .Include(u=>u.OrderOfUser)
-                                            .ThenInclude(g=>g.UserGender)
-                                        .Include(od => od.CurrentOrderDetails)
-                                            .ThenInclude(p => p.OrderDetailOfProduct).ToListAsync();
-                    return populatedOrder.Cast<T>();
-                }
                 var tList = await context.Set<T>().ToListAsync();
                 return tList;
             }
@@ -71,22 +60,10 @@ namespace CustomerManagement.Repository
             }
         }
 
-        public async Task<T> FindByIdAsync(int id)
+        public virtual async Task<T> FindByIdAsync(int id)
         {
             try
             {
-                if (typeof(T) == typeof(Order))
-                {
-                    var populatedOrder = await context.Set<Order>()
-                                        .Include(u=>u.OrderOfUser)
-                                            .ThenInclude(r=>r.UserRole)
-                                        .Include(u=>u.OrderOfUser)
-                                            .ThenInclude(g=>g.UserGender)
-                                        .Include(od => od.CurrentOrderDetails)
-                                            .ThenInclude(p => p.OrderDetailOfProduct)
-                                        .FirstOrDefaultAsync(o=>o.OrderId == id);
-                    return populatedOrder as T;
-                }
                 var t = await context.Set<T>().FindAsync(id);
                 return t;
             }
@@ -100,9 +77,9 @@ namespace CustomerManagement.Repository
         {
             try
             {
-                context.Update(t);
-                await context.SaveChangesAsync();
-                return t;
+                var savedT = context.Update(t);
+                var isUpdaed = await context.SaveChangesAsync();
+                return savedT.Entity;
             }
             catch (Exception e)
             {

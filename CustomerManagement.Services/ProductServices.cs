@@ -76,8 +76,13 @@ namespace CustomerManagement.Services
             try
             {
                 var product = await productRepository.FindByIdAsync(id);
-                var mappedProduct = mapper.Map<ProductDTO>(product);
-                return mappedProduct;
+                if (product != null)
+                {
+                    var mappedProduct = mapper.Map<ProductDTO>(product);
+                    return mappedProduct;
+                }
+
+                throw new Exception($"No product with id:{id}");
             }
             catch (Exception e)
             {

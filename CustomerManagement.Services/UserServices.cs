@@ -23,26 +23,27 @@ namespace CustomerManagement.Services
             mapper = _mapper;
             userRepository = _userRepository;
         }
-
         public async Task<UserDTO> CreateUserAsync(CreateUserDTO createUserDTO)
         {
             try
             {
                 var user = mapper.Map<User>(createUserDTO);
-                
+
                 user.CreatedDate = DateTimeOffset.Now;
                 user.UpdatedDate = DateTimeOffset.Now;
-                
-                var newUser = await userRepository.AddUserAsync(user);
+                user.UpdatedBy = user.CreatedBy;
+
+                var newUser = await userRepository.CreateAsync(user);
+                var populatedUser = await userRepository.FindByIdAsync(newUser.UserId);
 
                 var mappedUser = new UserDTO(
-                        newUser.UserName,
-                        newUser.Phone,
-                        newUser.Email,
-                        newUser.Address,
-                        newUser.UserGender.GenderName,
-                        newUser.UserRole.RoleName,
-                        newUser.CreatedDate
+                        populatedUser.UserName,
+                        populatedUser.Phone,
+                        populatedUser.Email,
+                        populatedUser.Address,
+                        populatedUser.UserGender.GenderName,
+                        populatedUser.UserRole.RoleName,
+                        populatedUser.CreatedDate
                     );
                 return mappedUser;
             }
@@ -74,7 +75,7 @@ namespace CustomerManagement.Services
         {
             try
             {
-                var users = await userRepository.GetAllAsync();
+                var users = await userRepository.FindAllAsync();
                 var l = users.Select(x => new UserDTO(
                         x.UserName,
                         x.Phone,
@@ -100,8 +101,9 @@ namespace CustomerManagement.Services
         {
             try
             {
-                var user = await userRepository.GetByIdAsync(id);
-                if(user!= null) {
+                var user = await userRepository.FindByIdAsync(id);
+                if (user != null)
+                {
                     /*
                     var mappedUser = mapper.Map<UserDTO>(user);
                     */
@@ -124,6 +126,7 @@ namespace CustomerManagement.Services
             }
         }
 
+
         public async Task<UserDTO> UpdateUserAsync(int id, UpdateUserDTO updateUserDTO)
         {
             try
@@ -131,23 +134,29 @@ namespace CustomerManagement.Services
                 var oldUser = await userRepository.FindByIdAsync(id);
                 if (oldUser != null)
                 {
-                    var oldUserDTO = mapper.Map<UpdateUserDTO>(oldUser);
-                    var updateRequestDTO = mapper.Map(updateUserDTO,oldUser);
-                    var updateRequest = mapper.Map<User>(updateRequestDTO);
-                    updateRequest.UpdatedDate = DateTimeOffset.Now;
-                    updateRequest.CreatedDate = oldUser.CreatedDate;
-                    updateRequest.CreatedBy = oldUser.CreatedBy;
-                    
-                    var updatedUser = await userRepository.PutUserAsync(updateRequest);
-                    
+                    var user = new User();
+                    user.UserId = updateUserDTO.UserId;
+                    user.UserName = updateUserDTO.UserName;
+                    user.Phone = updateUserDTO.Phone;
+                    user.Email = updateUserDTO.Email;
+                    user.Password = updateUserDTO.Password;
+                    user.Address = updateUserDTO.Address;
+                    user.IsActive = updateUserDTO.IsActive;
+                    user.GenderId = updateUserDTO.GenderId;
+                    user.RoleId = updateUserDTO.RoleId;
+                    user.UpdatedBy = updateUserDTO.UpdatedBy;
+                    user.UpdatedDate = DateTimeOffset.Now;
+
+                    var updatedUser = await userRepository.UpdateAsync(user);
+                    var populatedUser = await userRepository.FindByIdAsync(updatedUser.UserId);
                     var mappedUser = new UserDTO(
-                        updatedUser.UserName,
-                        updatedUser.Phone,
-                        updatedUser.Email,
-                        updatedUser.Address,
-                        updatedUser.UserGender.GenderName,
-                        updatedUser.UserRole.RoleName,
-                        updatedUser.CreatedDate
+                        populatedUser.UserName,
+                        populatedUser.Phone,
+                        populatedUser.Email,
+                        populatedUser.Address,
+                        populatedUser.UserGender.GenderName,
+                        populatedUser.UserRole.RoleName,
+                        populatedUser.CreatedDate
                     );
                     return mappedUser;
                 }

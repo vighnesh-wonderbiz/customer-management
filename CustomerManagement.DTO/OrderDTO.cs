@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CustomerManagement.DTO
 {
-    public record OrderDTO(
+     public record OrderDTO(
         decimal OrderTotal,
         decimal Discount,
         decimal Balance,
@@ -35,7 +35,6 @@ namespace CustomerManagement.DTO
     );
 
     public record CreateOrderDTO(
-        decimal Discount,
         decimal Balance,
         DateTimeOffset? BalanceReminder,
         int UserId,

@@ -20,6 +20,48 @@ namespace CustomerManagement.Repository
             context = _context;
         }
 
+                public async override Task<IEnumerable<Order>> FindAllAsync()
+        {
+            try
+            {
+                var populatedOrder = await context.Set<Order>()
+                                        .Include(u => u.OrderOfUser)
+                                            .ThenInclude(r => r.UserRole)
+                                        .Include(u => u.OrderOfUser)
+                                            .ThenInclude(g => g.UserGender)
+                                        .Include(od => od.CurrentOrderDetails)
+                                            .ThenInclude(p => p.OrderDetailOfProduct).ToListAsync();
+                return populatedOrder;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public async override Task<Order> FindByIdAsync(int id)
+        {
+            try
+            {
+                var populatedOrder = await context.Set<Order>()
+                                        .Include(u => u.OrderOfUser)
+                                            .ThenInclude(r => r.UserRole)
+                                        .Include(u => u.OrderOfUser)
+                                            .ThenInclude(g => g.UserGender)
+                                        .Include(od => od.CurrentOrderDetails)
+                                            .ThenInclude(p => p.OrderDetailOfProduct)
+                                        .FirstOrDefaultAsync(o => o.OrderId == id);
+                if (populatedOrder != null) return populatedOrder;
+                throw new Exception($"No order with id:{id}");
+
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+        }
+
         public OrderDTO MapOrders(Order order)
         {
             return new OrderDTO(
@@ -63,10 +105,18 @@ namespace CustomerManagement.Repository
                 order.CreatedDate
             );
         }
-        public async Task <IDictionary<int,OrderDetail>> GetOrderDetailsOfOrder(int id){
-            var orderDetails = await context.OrderDetails.Include(p=>p.OrderDetailOfProduct).Where(od=>od.OrderId == id).ToListAsync();
-            var orderDictonary = orderDetails.ToDictionary(od => od.OrderDetailsId, p => p);
-            return orderDictonary;
+        public async Task<IDictionary<int, OrderDetail>> GetOrderDetailsOfOrder(int id)
+        {
+            try
+            {
+                var orderDetails = await context.OrderDetails.Include(p => p.OrderDetailOfProduct).Where(od => od.OrderId == id).ToListAsync();
+                var orderDictonary = orderDetails.ToDictionary(od => od.OrderDetailsId, p => p);
+                return orderDictonary;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
     }
     

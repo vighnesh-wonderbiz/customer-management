@@ -29,6 +29,7 @@ namespace CustomerManagement.DTO
 
     public record CreateOrderDetailDTO(
         int Quantity,
+        decimal Discount,
         int ProductId,
         DateTimeOffset? StartDate,
         DateTimeOffset? EndDate,
@@ -47,6 +48,8 @@ namespace CustomerManagement.DTO
         decimal SGst,
         decimal UTGst,
         int ProductId,
+        DateTimeOffset? StartDate,
+        DateTimeOffset? EndDate,
         DateTimeOffset UpdatedDate,
         int UpdatedBy
     );

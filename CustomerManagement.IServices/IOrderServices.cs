@@ -9,7 +9,7 @@ namespace CustomerManagement.IServices
 {
     public interface IOrderServices
     {
-        
+
         Task<IEnumerable<OrderDTO>> GetAllOrdersAsync();
 
         Task<OrderDTO> GetOrderByIdAsync(int id);

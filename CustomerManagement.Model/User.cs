@@ -48,9 +48,9 @@ namespace CustomerManagement.Model
        public int RoleId { get; set; } = 2;
         public virtual Role UserRole {get; set;}
 
-        [ForeignKey("Enquiry")]
+        [ForeignKey("User")]
         public int? EnquiryId { get; set; }
-        public virtual Enquiry UserOfEnquiry {  get; set;}
+        public virtual User UserReferredBy { get; set; }
 
         public virtual ICollection<Order> Orders {get;set;}
 

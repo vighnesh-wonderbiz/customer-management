@@ -42,11 +42,8 @@ namespace CustomerManagement.DTO
         string Address,
         bool IsActive,
         int CreatedBy,
-        DateTimeOffset UpdatedDate,
-        int UpdatedBy,
         int GenderId,
-        int RoleId,
-        DateTimeOffset CreatedDate
+        int RoleId
     );
     public record UpdateUserDTO(
         int UserId,
@@ -56,10 +53,9 @@ namespace CustomerManagement.DTO
         string Password,
         string Address,
         bool IsActive,
-        DateTimeOffset UpdatedDate,
-        int UpdatedBy,
         int GenderId,
-        int RoleId
+        int RoleId,
+        int UpdatedBy
     );
     public record UserDTO(
         string UserName,

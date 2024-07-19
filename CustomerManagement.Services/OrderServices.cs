@@ -33,22 +33,31 @@ namespace CustomerManagement.Services
             {
                 var productIds = createOrderDTO.CurrentOrderDetails.Select(p => p.ProductId).ToList();
                 var products = await _productRepository.FetchProductsByIdAsync(productIds);
+
                 Order order = new Order();
                 order.Balance = createOrderDTO.Balance;
-                order.CurrentOrderDetails = createOrderDTO.CurrentOrderDetails.Select(x => new OrderDetail()
+                var currentOrderDetails = new List<OrderDetail>();
+                foreach (var x in createOrderDTO.CurrentOrderDetails)
                 {
-                    ProductId = x.ProductId,
-                    Quantity = x.Quantity,
-                    ProductPrice = products[x.ProductId].ProductPrice,
-                    ProdcutSubtotal = products[x.ProductId].ProductPrice * x.Quantity,
-                    ProductTotal = products[x.ProductId].ProductPrice * x.Quantity + products[x.ProductId].IGstRate + products[x.ProductId].CGstRate + products[x.ProductId].SGstRate + products[x.ProductId].UTGstRate,
-                    StartDate = x.StartDate != null ? x.StartDate : null,
-                    EndDate = x.StartDate != null ? x.StartDate : null,
-                    CreatedDate = DateTimeOffset.Now,
-                    UpdatedDate = DateTimeOffset.Now,
-                    CreatedBy = x.CreatedBy,
-                    UpdatedBy = x.UpdatedBy
-                }).ToList();
+                    var orderDetail = new OrderDetail();
+                    var currentProduct = products[x.ProductId];
+                    orderDetail.ProductId = x.ProductId;
+                    orderDetail.Quantity = x.Quantity;
+                    orderDetail.ProductPrice = currentProduct.ProductPrice;
+                    orderDetail.ProdcutSubtotal = currentProduct.ProductPrice * x.Quantity;
+                    var orderTotal = orderDetail.ProdcutSubtotal + currentProduct.IGstRate + currentProduct.CGstRate + currentProduct.SGstRate + currentProduct.UTGstRate;
+                    var discountedPrice = orderDetail.ProdcutSubtotal * (x.Discount / 100);
+                    orderDetail.Discount = x.Discount;
+                    orderDetail.ProductTotal = orderTotal - discountedPrice;
+                    orderDetail.StartDate = x.StartDate != null ? x.StartDate : null;
+                    orderDetail.EndDate = x.StartDate != null ? x.StartDate : null;
+                    orderDetail.CreatedDate = DateTimeOffset.Now;
+                    orderDetail.UpdatedDate = DateTimeOffset.Now;
+                    orderDetail.CreatedBy = x.CreatedBy;
+                    orderDetail.UpdatedBy = x.CreatedBy;
+                    currentOrderDetails.Add(orderDetail);
+                }
+                order.CurrentOrderDetails = currentOrderDetails;
                 order.OrderTotal = order.CurrentOrderDetails.Sum(p => p.ProductTotal);
                 order.Balance = order.OrderTotal;
                 order.Discount = order.CurrentOrderDetails.Sum(p => p.Discount);
@@ -58,7 +67,9 @@ namespace CustomerManagement.Services
                 order.UpdatedDate = DateTimeOffset.Now;
                 order.CreatedBy = createOrderDTO.CreatedBy;
                 order.UpdatedBy = createOrderDTO.UpdatedBy;
+
                 var createdOrder = await orderRepository.CreateAsync(order);
+
                 var mappedOrder = new CreatedOrderDTO
                 (
                     createdOrder.OrderTotal,
@@ -102,7 +113,7 @@ namespace CustomerManagement.Services
         public async Task<bool> DeleteOrderAsync(int id)
         {
             var order = await orderRepository.FindByIdAsync(id);
-            if(order != null)
+            if (order != null)
             {
                 var isDeleted = await orderRepository.DeleteAsync(order);
                 return isDeleted;
@@ -112,9 +123,16 @@ namespace CustomerManagement.Services
 
         public async Task<IEnumerable<OrderDTO>> GetAllOrdersAsync()
         {
-            var orders = await orderRepository.FindAllAsync();
-            var mappedOrder = orders.Select(x => orderRepository.MapOrders(x));
-            return mappedOrder;
+            try
+            {
+                var orders = await orderRepository.FindAllAsync();
+                var mappedOrder = orders.Select(x => orderRepository.MapOrders(x));
+                return mappedOrder;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public async Task<OrderDTO> GetOrderByIdAsync(int id)
@@ -127,7 +145,7 @@ namespace CustomerManagement.Services
                     var mappedOrder = orderRepository.MapOrders(order);
                     return mappedOrder;
                 }
-                throw new Exception($"Order with id:{id} not found");
+                throw new Exception($"No Order with Id {id}");
             }
             catch (Exception e)
             {
@@ -137,61 +155,73 @@ namespace CustomerManagement.Services
 
         public async Task<OrderDTO> UpdateOrderAsync(int id, UpdateOrderDTO updateOrderDTO)
         {
-            var oldOrder = await orderRepository.FindByIdAsync(id);
-            var orderDetails = await orderRepository.GetOrderDetailsOfOrder(id);
-            if (oldOrder != null)
+            try
             {
-                var productsId = orderDetails.Keys.ToList();
-                var oldOrderProductsId = oldOrder.CurrentOrderDetails.Select(p => p.ProductId).ToList();
-                if (productsId != null && oldOrderProductsId != null &&
-                productsId.OrderBy(x => x).SequenceEqual(oldOrderProductsId.OrderBy(x => x)))
+                var oldOrder = await orderRepository.FindByIdAsync(id);
+                var orderDetails = await orderRepository.GetOrderDetailsOfOrder(id);
+                if (oldOrder != null)
                 {
-                    // var products = await _productRepository.FetchProductsByIdAsync(productsId);
-                    // var updatedProduct = mapper.Map<Order>(updateOrderDTO);
-                    Order order = new Order();
-                    order.OrderId = updateOrderDTO.OrderId;
-                    order.Balance = updateOrderDTO.Balance;
-                    
-                    order.CurrentOrderDetails = updateOrderDTO.CurrentOrderDetails.Select(x => new OrderDetail()
+                    var productsId = orderDetails.Values.Select(p => p.ProductId);
+                    var oldOrderProductsId = oldOrder.CurrentOrderDetails.Select(p => p.ProductId).ToList();
+                    if (productsId != null && oldOrderProductsId != null &&
+                    productsId.OrderBy(x => x).SequenceEqual(oldOrderProductsId.OrderBy(x => x)))
                     {
-                        OrderDetailsId= x.OrderDetailsId,
-                        ProductId = x.ProductId,
-                        Quantity = x.Quantity,
-                        ProductPrice = orderDetails[x.OrderDetailsId].OrderDetailOfProduct.ProductPrice,
-                        ProdcutSubtotal = orderDetails[x.OrderDetailsId].OrderDetailOfProduct.ProductPrice * x.Quantity,
-                        
-                        ProductTotal = orderDetails[x.OrderDetailsId].OrderDetailOfProduct.ProductPrice * x.Quantity + 
-                        x.IGst != orderDetails[x.OrderDetailsId].OrderDetailOfProduct.IGstRate ? x.IGst : orderDetails[x.OrderDetailsId].OrderDetailOfProduct.IGstRate + 
-                        x.CGst != orderDetails[x.OrderDetailsId].OrderDetailOfProduct.CGstRate ? x.CGst : orderDetails[x.OrderDetailsId].OrderDetailOfProduct.CGstRate + 
-                        x.SGst != orderDetails[x.OrderDetailsId].OrderDetailOfProduct.SGstRate ? x.SGst : orderDetails[x.OrderDetailsId].OrderDetailOfProduct.SGstRate + 
-                        x.UTGst != orderDetails[x.OrderDetailsId].OrderDetailOfProduct.UTGstRate ? x.UTGst : orderDetails[x.OrderDetailsId].OrderDetailOfProduct.UTGstRate,
-                        StartDate = orderDetails[x.OrderDetailsId].OrderDetailOfProduct.StartDate,
-                        EndDate = orderDetails[x.OrderDetailsId].OrderDetailOfProduct.EndDate,
-                        CreatedDate = orderDetails[x.OrderDetailsId].OrderDetailOfProduct.CreatedDate,
-                        UpdatedDate = x.UpdatedDate,
-                        CreatedBy = orderDetails[x.OrderDetailsId].OrderDetailOfProduct.CreatedBy,
-                        UpdatedBy = x.UpdatedBy
-                    }).ToList();
-                    order.OrderTotal = order.CurrentOrderDetails.Sum(p => p.ProductTotal);
-                    order.Balance = order.OrderTotal;
-                    order.Discount = order.CurrentOrderDetails.Sum(p => p.Discount);
-                    order.BalanceReminder = DateTimeOffset.Now;
-                    order.UserId = updateOrderDTO.UserId;
-                    order.CreatedDate = oldOrder.CreatedDate;
-                    order.UpdatedDate = oldOrder.UpdatedDate;
-                    order.CreatedBy = oldOrder.CreatedBy;
-                    order.UpdatedBy = updateOrderDTO.UpdatedBy;
-                    var createdOrder = await orderRepository.UpdateAsync(order);
-                    var updatedOrder = await orderRepository.FindByIdAsync(createdOrder.OrderId);
-                    var mappedOrder = orderRepository.MapOrders(updatedOrder);
-                    return mappedOrder;
+                        var products = await _productRepository.FetchProductsByIdAsync(productsId);
+                        Order order = new Order();
+                        order.OrderId = updateOrderDTO.OrderId;
+                        var updatedOrderDetails = new List<OrderDetail>();
+                        foreach (var x in updateOrderDTO.CurrentOrderDetails)
+                        {
+                            var orderDetail = new OrderDetail();
+                            var currentOrder = orderDetails[x.OrderDetailsId];
+                            orderDetail.OrderDetailsId = x.OrderDetailsId;
+                            orderDetail.ProductId = x.ProductId;
+                            orderDetail.Quantity = x.Quantity;
+                            orderDetail.ProductPrice = currentOrder.OrderDetailOfProduct.ProductPrice;
+                            orderDetail.ProdcutSubtotal = currentOrder.OrderDetailOfProduct.ProductPrice * x.Quantity;
+                            var orderTotal = orderDetail.ProdcutSubtotal + orderDetail.IGst + orderDetail.CGst + orderDetail.SGst + orderDetail.UTGst;
+                            var discountedPrice = orderDetail.ProdcutSubtotal * (x.Discount / 100);
+                            orderDetail.Discount = x.Discount;
+                            orderDetail.IGst = x.IGst != 0 ? x.IGst : currentOrder.OrderDetailOfProduct.IGstRate;
+                            orderDetail.CGst = x.CGst != 0 ? x.CGst : currentOrder.OrderDetailOfProduct.CGstRate;
+                            orderDetail.SGst = x.SGst != 0 ? x.SGst : currentOrder.OrderDetailOfProduct.SGstRate;
+                            orderDetail.ProductTotal = orderTotal - discountedPrice;
+                            orderDetail.StartDate = x.StartDate ?? currentOrder.OrderDetailOfProduct.StartDate;
+                            orderDetail.EndDate = x.EndDate ?? currentOrder.OrderDetailOfProduct.EndDate;
+                            orderDetail.CreatedDate = currentOrder.OrderDetailOfProduct.CreatedDate;
+                            orderDetail.UpdatedDate = x.UpdatedDate;
+                            orderDetail.CreatedBy = currentOrder.OrderDetailOfProduct.CreatedBy;
+                            orderDetail.UpdatedBy = x.UpdatedBy;
+                            updatedOrderDetails.Add(orderDetail);
+                        }
+                        order.CurrentOrderDetails = updatedOrderDetails;
+                        order.OrderTotal = order.CurrentOrderDetails.Sum(p => p.ProductTotal);
+                        order.Balance = updateOrderDTO.Balance;
+                        order.Discount = order.CurrentOrderDetails.Sum(p => p.Discount);
+                        order.BalanceReminder = updateOrderDTO.BalanceReminder ?? DateTimeOffset.Now;
+                        order.UserId = updateOrderDTO.UserId;
+                        order.CreatedDate = oldOrder.CreatedDate;
+                        order.UpdatedDate = oldOrder.UpdatedDate;
+                        order.CreatedBy = oldOrder.CreatedBy;
+                        order.UpdatedBy = updateOrderDTO.UpdatedBy;
+                        var createdOrder = await orderRepository.UpdateAsync(order);
+                        var updatedOrder = await orderRepository.FindByIdAsync(createdOrder.OrderId);
+                        var mappedOrder = orderRepository.MapOrders(updatedOrder);
+                        return mappedOrder;
+                    }
+                    throw new Exception("Invalid Operation: Cannot update product not present in order summary.");
                 }
-                throw new Exception("Invalid Operation: Cannot update product not present in order summary.");
+                else
+                {
+                    throw new InvalidOperationException($"Order with ID {id} not found.");
+                }
             }
-            else
+            catch (Exception e)
             {
-                throw new InvalidOperationException($"Order with ID {id} not found.");
+
+                throw;
             }
+
         }
     }
 }

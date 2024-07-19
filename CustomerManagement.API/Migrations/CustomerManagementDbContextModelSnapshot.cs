@@ -69,7 +69,7 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Enquiries");
+                    b.ToTable("Enquiries", (string)null);
                 });
 
             modelBuilder.Entity("CustomerManagement.Model.EnquiryDetail", b =>
@@ -107,7 +107,7 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasIndex("EnquiryId");
 
-                    b.ToTable("EqnuiryDetails");
+                    b.ToTable("EqnuiryDetails", (string)null);
                 });
 
             modelBuilder.Entity("CustomerManagement.Model.EnquiryInterest", b =>
@@ -142,7 +142,7 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("EnquiryInterests");
+                    b.ToTable("EnquiryInterests", (string)null);
                 });
 
             modelBuilder.Entity("CustomerManagement.Model.Gender", b =>
@@ -174,7 +174,7 @@ namespace CustomerManagement.API.Migrations
                     b.HasIndex("GenderName")
                         .IsUnique();
 
-                    b.ToTable("Genders");
+                    b.ToTable("Genders", (string)null);
                 });
 
             modelBuilder.Entity("CustomerManagement.Model.Lead", b =>
@@ -207,7 +207,7 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasIndex("EnquiryId");
 
-                    b.ToTable("Leads");
+                    b.ToTable("Leads", (string)null);
                 });
 
             modelBuilder.Entity("CustomerManagement.Model.Order", b =>
@@ -258,7 +258,7 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("CustomerManagement.Model.OrderDetail", b =>
@@ -334,7 +334,7 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("CustomerManagement.Model.Payment", b =>
@@ -368,7 +368,7 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("CustomerManagement.Model.Product", b =>
@@ -438,7 +438,7 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("CustomerManagement.Model.Role", b =>
@@ -473,7 +473,7 @@ namespace CustomerManagement.API.Migrations
                     b.HasIndex("RoleName")
                         .IsUnique();
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("CustomerManagement.Model.Status", b =>
@@ -508,7 +508,7 @@ namespace CustomerManagement.API.Migrations
                     b.HasIndex("StatusName")
                         .IsUnique();
 
-                    b.ToTable("Statuses");
+                    b.ToTable("Statuses", (string)null);
                 });
 
             modelBuilder.Entity("CustomerManagement.Model.User", b =>
@@ -579,7 +579,7 @@ namespace CustomerManagement.API.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("CustomerManagement.Model.Enquiry", b =>

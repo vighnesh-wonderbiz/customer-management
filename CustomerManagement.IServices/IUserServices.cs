@@ -9,7 +9,7 @@ namespace CustomerManagement.IServices
 {
     public interface IUserServices
     {
-        
+
         Task<IEnumerable<UserDTO>> GetAllUsersAsync();
 
         Task<UserDTO> GetUserByIdAsync(int id);
